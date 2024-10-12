@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: coffee
+
+  profiles:
+    active: local
+    group:
+      "local": "local, secrets"
+
+
