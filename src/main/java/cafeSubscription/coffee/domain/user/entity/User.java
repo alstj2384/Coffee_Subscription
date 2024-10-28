@@ -1,6 +1,7 @@
-package cafeSubscription.coffee.domain.user;
+package cafeSubscription.coffee.domain.user.entity;
 
 
+import cafeSubscription.coffee.domain.user.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

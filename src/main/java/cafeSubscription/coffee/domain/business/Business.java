@@ -1,6 +1,5 @@
 package cafeSubscription.coffee.domain.business;
 
-import cafeSubscription.coffee.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

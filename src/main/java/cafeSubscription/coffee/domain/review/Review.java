@@ -2,14 +2,13 @@ package cafeSubscription.coffee.domain.review;
 
 
 import cafeSubscription.coffee.domain.cafe.Cafe;
-import cafeSubscription.coffee.domain.user.User;
+import cafeSubscription.coffee.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
