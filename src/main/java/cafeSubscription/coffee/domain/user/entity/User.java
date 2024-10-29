@@ -34,4 +34,5 @@ public class User {
     @Column(nullable = false)
     private UserRole role;
 
+
 }
