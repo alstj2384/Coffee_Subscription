@@ -1,5 +1,6 @@
 package cafeSubscription.coffee.domain.user.service;
 
+import cafeSubscription.coffee.domain.user.UserRole;
 import cafeSubscription.coffee.domain.user.dto.RegisterDTO;
 import cafeSubscription.coffee.domain.user.entity.User;
 import cafeSubscription.coffee.domain.user.mapper.RegisterMapper;
@@ -16,7 +17,7 @@ public class RegisterService {
     private final PasswordEncoder passwordEncoder;
 
 
-    public User join(RegisterDTO registerDTO) {
+    public User register(RegisterDTO registerDTO) {
         // 이메일 중복 체크
         if (registerRepository.findByEmail(registerDTO.getEmail()).isPresent()) {
             throw new IllegalStateException("이미 사용 중인 이메일입니다.");
@@ -32,6 +33,7 @@ public class RegisterService {
 
         // 사용자 엔티티 생성 (Mapper 사용)
         User user = RegisterMapper.toEntity(registerDTO, encodedPassword);
+        user.setRole(UserRole.customer); // 기본 권한을 customer
 
         // 사용자 저장
         return registerRepository.save(user);

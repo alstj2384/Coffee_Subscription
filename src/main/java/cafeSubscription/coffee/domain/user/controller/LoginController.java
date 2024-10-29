@@ -14,7 +14,6 @@ import java.util.Map;
 @RequestMapping("/api/users")
 public class LoginController {
 
-    private final RegisterService registerService;
     private final JwtService jwtService;
 
     @PostMapping("/login")

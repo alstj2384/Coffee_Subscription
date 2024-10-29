@@ -15,8 +15,8 @@ public class RegisterController {
     private final RegisterService registerService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> join(@RequestBody RegisterDTO registerDTO) {
-        User user = registerService.join(registerDTO);
+    public ResponseEntity<User> register(@RequestBody RegisterDTO registerDTO) {
+        User user = registerService.register(registerDTO);
         return ResponseEntity.ok(user);
     }
 }
