@@ -16,7 +16,7 @@ public class RegisterDTO {
 
     //비지니스 사용자 필요정보
     private String businessNumber;
-    private String bName;
+    private String businessName;
     private String bankAccount;
     private LocalDate openingDate;
 }
