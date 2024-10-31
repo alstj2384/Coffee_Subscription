@@ -1,5 +1,6 @@
 package cafeSubscription.coffee.domain.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +17,9 @@ public class RegisterDTO {
 
     //비지니스 사용자 필요정보
     private String businessNumber;
-    private String businessName;
+
+    @JsonProperty("bName")
+    private String bName;
     private String bankAccount;
     private LocalDate openingDate;
 }
