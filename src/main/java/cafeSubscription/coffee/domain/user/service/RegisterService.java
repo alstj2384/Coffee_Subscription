@@ -8,6 +8,8 @@ import cafeSubscription.coffee.domain.user.mapper.BusinessRegisterMapper;
 import cafeSubscription.coffee.domain.user.mapper.RegisterMapper;
 import cafeSubscription.coffee.domain.user.repository.BusinessRepository;
 import cafeSubscription.coffee.domain.user.repository.RegisterRepository;
+import cafeSubscription.coffee.global.exception.CustomException;
+import cafeSubscription.coffee.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,12 +29,12 @@ public class RegisterService {
     public User register(RegisterDTO registerDTO) {
         // 이메일 중복 체크
         if (registerRepository.findByEmail(registerDTO.getEmail()).isPresent()) {
-            throw new IllegalStateException("이미 사용 중인 이메일입니다.");
+            throw new CustomException(ErrorCode.DUPLICATE_USER_EMAIL);
         }
 
         // 닉네임 중복 체크
         if (registerRepository.findByUsername(registerDTO.getUsername()).isPresent()) {
-            throw new IllegalStateException("이미 사용 중인 닉네임입니다.");
+            throw new CustomException(ErrorCode.DUPLICATE_USER_NICKNAME);
         }
 
         // 비밀번호 암호화
