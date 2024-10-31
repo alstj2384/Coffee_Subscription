@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.disable())) // X-Frame-Options 비활성화
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/api/users/**","/h2-console/**", "/public/**").permitAll() // 공개 URL
+                        .requestMatchers("/api/users/**","/h2-console/**").permitAll() // 공개 URL
                         .requestMatchers("/admin").hasRole("ADMIN") // ADMIN 권한이 필요한 URL
                         .anyRequest().authenticated()) // 나머지 URL은 인증 필요
                 .sessionManagement(session -> session

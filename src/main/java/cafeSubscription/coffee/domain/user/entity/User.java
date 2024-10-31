@@ -5,8 +5,8 @@ import cafeSubscription.coffee.domain.user.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
 @Builder
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
