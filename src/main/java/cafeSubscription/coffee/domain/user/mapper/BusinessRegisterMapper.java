@@ -11,7 +11,7 @@ public class BusinessRegisterMapper {
     public static Business toBusinessEntity(RegisterDTO registerDTO, User user) {
         return Business.builder()
                 .businessNumber(registerDTO.getBusinessNumber())
-                .businessName(registerDTO.getBusinessName())
+                .bName(registerDTO.getBName())
                 .bankAccount(registerDTO.getBankAccount())
                 .openingDate(registerDTO.getOpeningDate())
                 .user(user) // 1대1 관계 설정

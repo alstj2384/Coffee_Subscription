@@ -25,7 +25,7 @@ public class Business {
     private String businessNumber;
 
     @Column(nullable = true)
-    private String businessName;
+    private String bName;
 
     @Column(nullable = true)
     private String bankAccount;

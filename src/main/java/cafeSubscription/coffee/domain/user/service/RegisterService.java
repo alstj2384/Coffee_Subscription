@@ -44,7 +44,7 @@ public class RegisterService {
 
         //사장님으로 가입인지 판별
         if (registerDTO.getBusinessNumber() != null &&
-                registerDTO.getBusinessName() != null &&
+                registerDTO.getBName() != null &&
                 registerDTO.getBankAccount() != null &&
                 registerDTO.getOpeningDate() != null) {
             user.setRole(UserRole.owner);
