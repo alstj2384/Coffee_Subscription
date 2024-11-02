@@ -41,3 +41,17 @@ spring:
         # 로컬 환경에서 SQL 동작 확인을 위한 설정
 #        format_sql: true
 #        show_sql: true
+
+  #OAuth
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: GOOGLE_CLIENT_ID
+            client-secret: GOOGLE_CLIENT_SECRET
+            scope: #권한 요청
+              - openid
+              - email
+              - profile
+
