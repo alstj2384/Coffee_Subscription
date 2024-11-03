@@ -9,6 +9,8 @@ public enum ErrorCode {
     /**
      * USER
      */
+    // 이미 존재하는 유저
+    EXISTENT_USER("이미 존재하는 유저입니다",HttpStatus.CONFLICT),
 
     // 이미 사용중인 이메일
     DUPLICATE_USER_EMAIL("이미 사용 중인 이메일입니다", HttpStatus.CONFLICT),

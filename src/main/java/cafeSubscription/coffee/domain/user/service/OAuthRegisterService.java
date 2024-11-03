@@ -24,45 +24,44 @@ public class OAuthRegisterService {
     @Transactional
     public User registerOAuthUser(OAuthRegisterDTO oauthRegisterDTO) {
 
-        // 이메일 중복 체크
-        if (registerRepository.findByEmail(oauthRegisterDTO.getEmail()).isPresent()) {
-            throw new CustomException(ErrorCode.DUPLICATE_USER_EMAIL);
-        }
+        // 사용자 존재 여부 확인 (oauthProviderId 기준)
+        User existingUser = registerRepository.findByOauthProviderId(oauthRegisterDTO.getOauthProviderId()).orElse(null);
 
-        // 닉네임 중복 체크
-        if (oauthRegisterDTO.getNickName() != null && registerRepository.findByNickName(oauthRegisterDTO.getNickName()).isPresent()) {
-            throw new CustomException(ErrorCode.DUPLICATE_USER_NICKNAME);
+        if (existingUser != null) {
+            return existingUser; // 바로 로그인 처리
         }
 
         // 사용자 엔티티 생성
         User user = OAuthRegisterMapper.toOAuthEntity(oauthRegisterDTO);
-
 
         if (user.getNickName() == null || user.getNickName().isEmpty()) {
             throw new CustomException(ErrorCode.INVALID_USER_DATA);
         }
 
 
-        // 비즈니스 사용자일 경우 역할 변경 및 비즈니스 정보 추가 저장
-        if (oauthRegisterDTO.getBusinessNumber() != null &&
-                oauthRegisterDTO.getBName() != null &&
-                oauthRegisterDTO.getBankAccount() != null &&
-                oauthRegisterDTO.getOpeningDate() != null) {
+        // 비즈니스 사용자 정보유무 확인
+        if (isBusinessUser(oauthRegisterDTO)) {
             user.setRole(UserRole.owner);
-        }else{
-            user.setRole(UserRole.customer);
-        }
+            User savedUser = registerRepository.save(user);
 
-        User savedUser = registerRepository.save(user);
-
-        if (user.getRole() == UserRole.owner) {
+            // 비즈니스 정보 저장
             Business business = OAuthBusinessRegisterMapper.toOAuthBusinessEntity(oauthRegisterDTO, savedUser);
             businessRepository.save(business);
 
-        }
+            return savedUser;
+        } else {
 
-        // 사용자 저장
-        return savedUser;
+            user.setRole(UserRole.customer);
+            return registerRepository.save(user);
+        }
+    }
+
+    // 비즈니스 사용자 정보가 있는지 여부 체크 메서드
+    private boolean isBusinessUser(OAuthRegisterDTO oauthRegisterDTO) {
+        return oauthRegisterDTO.getBusinessNumber() != null &&
+                oauthRegisterDTO.getBName() != null &&
+                oauthRegisterDTO.getBankAccount() != null &&
+                oauthRegisterDTO.getOpeningDate() != null;
     }
 }
 

@@ -27,6 +27,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/**","/h2-console/**").permitAll() // 공개 URL
                         .requestMatchers("/admin").hasRole("ADMIN") // ADMIN 권한이 필요한 URL
                         .anyRequest().authenticated()) // 나머지 URL은 인증 필요
+                .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl("/",true))//로그인 성공 후 리다이렉트 기본 경로
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // 세션 정책 설정
 
