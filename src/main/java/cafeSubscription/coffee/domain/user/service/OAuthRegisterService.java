@@ -30,7 +30,7 @@ public class OAuthRegisterService {
         }
 
         // 닉네임 중복 체크
-        if (registerRepository.findByNickName(oauthRegisterDTO.getNickName()).isPresent()) {
+        if (oauthRegisterDTO.getNickName() != null && registerRepository.findByNickName(oauthRegisterDTO.getNickName()).isPresent()) {
             throw new CustomException(ErrorCode.DUPLICATE_USER_NICKNAME);
         }
 
