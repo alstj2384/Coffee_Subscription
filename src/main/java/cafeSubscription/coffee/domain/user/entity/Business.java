@@ -21,16 +21,16 @@ public class Business {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long businessId;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String businessNumber;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String bName;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String bankAccount;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private LocalDate openingDate; // 개업일자, 일반 사용자는 null 가능
 
     @OneToOne(fetch = FetchType.LAZY)

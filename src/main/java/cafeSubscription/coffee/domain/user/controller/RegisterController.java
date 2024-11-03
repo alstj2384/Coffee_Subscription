@@ -18,8 +18,13 @@ public class RegisterController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody RegisterDTO registerDTO) {
-        User user = registerService.register(registerDTO);
+        User user = registerService.register(registerDTO, false);
         return ResponseEntity.ok(user);
     }
 
+    @PostMapping("/register/google/oauth")
+    public ResponseEntity<User> registerOAuth(@RequestBody RegisterDTO registerDTO) {
+        User user = registerService.register(registerDTO, true);
+        return ResponseEntity.ok(user);
+    }
 }

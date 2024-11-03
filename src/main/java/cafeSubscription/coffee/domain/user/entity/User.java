@@ -24,10 +24,10 @@ public class User {
 
     @Column(nullable = false)
     private String nickName;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
     @Column(nullable = false)
     private UserRole role;
