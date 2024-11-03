@@ -29,9 +29,16 @@ public class User {
 
     @Column(nullable = true)
     private String password;
+
     @Column(nullable = false)
     private UserRole role;
 
+    @Column(nullable = true, unique = true)
+    private String oauthProviderId; //oauth 사용자 고유 ID값
+
+
+//    @Column(nullable = true)
+//    private String oauthProvider; //ouath가 구글, 카카오인지 구별 (추후 추가시 필요로 보류)
 
 
 }

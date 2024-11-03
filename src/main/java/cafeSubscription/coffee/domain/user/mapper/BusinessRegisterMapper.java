@@ -14,7 +14,7 @@ public class BusinessRegisterMapper {
                 .bName(registerDTO.getBName())
                 .bankAccount(registerDTO.getBankAccount())
                 .openingDate(registerDTO.getOpeningDate())
-                .user(user) // 1대1 관계 설정
+                .user(user)
                 .build();
     }
 }

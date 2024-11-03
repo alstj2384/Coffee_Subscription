@@ -26,7 +26,7 @@ public class RegisterService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public User register(RegisterDTO registerDTO, boolean isOAuth) {
+    public User register(RegisterDTO registerDTO) {
         // 이메일 중복 체크
         if (registerRepository.findByEmail(registerDTO.getEmail()).isPresent()) {
             throw new CustomException(ErrorCode.DUPLICATE_USER_EMAIL);
@@ -37,15 +37,9 @@ public class RegisterService {
             throw new CustomException(ErrorCode.DUPLICATE_USER_NICKNAME);
         }
 
-        //OAuth사용자인지 검증
-        String encodedPassword = null;
-        if (!isOAuth) {
-            if (registerDTO.getUsername() == null || registerDTO.getPassword() == null) {
-                throw new CustomException(ErrorCode.INVALID_USER_DATA);
-            }
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(registerDTO.getPassword());
 
-            encodedPassword = passwordEncoder.encode(registerDTO.getPassword());
-        }
 
         // 사용자 엔티티 생성
         User user = RegisterMapper.toEntity(registerDTO, encodedPassword);
