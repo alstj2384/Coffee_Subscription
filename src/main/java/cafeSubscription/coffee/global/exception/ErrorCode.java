@@ -16,6 +16,9 @@ public enum ErrorCode {
     // 이미 사용중인 닉네임
     DUPLICATE_USER_NICKNAME("이미 사용 중인 닉네임입니다", HttpStatus.CONFLICT),
 
+    // 이미 사용중인 아이디
+    DUPLICATE_USER_USERNAME("이미 사용 중인 아이디입니다", HttpStatus.CONFLICT),
+
     // 존재하지않는 유저
     NON_EXISTENT_USER("존재하지 않는 유저입니다", HttpStatus.BAD_REQUEST),
 

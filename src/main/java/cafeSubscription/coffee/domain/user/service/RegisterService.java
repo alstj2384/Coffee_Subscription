@@ -32,8 +32,13 @@ public class RegisterService {
             throw new CustomException(ErrorCode.DUPLICATE_USER_EMAIL);
         }
 
-        // 닉네임 중복 체크
+        // 아이디 중복 체크
         if (registerRepository.findByUsername(registerDTO.getUsername()).isPresent()) {
+            throw new CustomException(ErrorCode.DUPLICATE_USER_USERNAME);
+        }
+
+        //닉네임 중복 체크
+        if(registerRepository.findByNickName(registerDTO.getNickName()).isPresent()){
             throw new CustomException(ErrorCode.DUPLICATE_USER_NICKNAME);
         }
 

@@ -29,6 +29,10 @@ public class OAuthRegisterService {
             throw new CustomException(ErrorCode.DUPLICATE_USER_EMAIL);
         }
 
+        // 닉네임 중복 체크
+        if (registerRepository.findByNickName(oauthRegisterDTO.getNickName()).isPresent()) {
+            throw new CustomException(ErrorCode.DUPLICATE_USER_NICKNAME);
+        }
 
         // 사용자 엔티티 생성
         User user = OAuthRegisterMapper.toOAuthEntity(oauthRegisterDTO);
