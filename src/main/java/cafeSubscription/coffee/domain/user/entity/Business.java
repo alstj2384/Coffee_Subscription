@@ -41,3 +41,4 @@ public class Business {
     @OneToOne(mappedBy = "business", fetch=FetchType.LAZY)
     private Cafe cafe;
 }
+

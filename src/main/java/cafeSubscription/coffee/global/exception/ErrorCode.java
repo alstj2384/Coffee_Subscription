@@ -27,6 +27,9 @@ public enum ErrorCode {
     // 회원가입에 필요한 값 필요
     INVALID_USER_DATA("회원가입에 필요한 값이 누락되었습니다", HttpStatus.BAD_REQUEST),
 
+    // 사용자 일치 불일치
+    USER_MISMATCH("사용자가 일치하지 않습니다.", HttpStatus.FORBIDDEN),
+
     /**
      * BUSINESS
      */
