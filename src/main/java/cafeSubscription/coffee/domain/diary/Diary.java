@@ -1,6 +1,6 @@
 package cafeSubscription.coffee.domain.diary;
 
-import cafeSubscription.coffee.domain.cafe.Cafe;
+import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

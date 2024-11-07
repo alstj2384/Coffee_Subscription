@@ -1,7 +1,7 @@
 package cafeSubscription.coffee.domain.review;
 
 
-import cafeSubscription.coffee.domain.cafe.Cafe;
+import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

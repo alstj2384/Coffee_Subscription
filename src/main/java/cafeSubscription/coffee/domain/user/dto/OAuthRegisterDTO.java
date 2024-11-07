@@ -3,9 +3,11 @@ package cafeSubscription.coffee.domain.user.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
+@ToString
 @Getter
 @Setter
 public class OAuthRegisterDTO {

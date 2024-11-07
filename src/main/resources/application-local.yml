@@ -48,10 +48,8 @@ spring:
       client:
         registration:
           google:
-            client-id: GOOGLE_CLIENT_ID
-            client-secret: GOOGLE_CLIENT_SECRET
-            scope: #권한 요청
-              - openid
-              - email
-              - profile
+            client-id: 1054896415438-sk4clmkmkq0cqiqvghdhttmv1gulc8fe.apps.googleusercontent.com
+            client-secret: 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
+            scope: openid, email, profile
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
 

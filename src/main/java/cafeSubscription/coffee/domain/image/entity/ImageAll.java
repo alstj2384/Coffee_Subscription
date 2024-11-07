@@ -1,5 +1,4 @@
-package cafeSubscription.coffee.domain.menu;
-
+package cafeSubscription.coffee.domain.image.entity;
 
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import jakarta.persistence.*;
@@ -13,21 +12,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Menu {
+@Table(name = "imageAll")
+public class ImageAll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @ManyToOne
-    private Cafe cafe;
+    private Long imageId;
 
     @Column(nullable = false)
-    private String menuName;
-
-    @Column(nullable = false)
-    private Integer mPrice;
-
-    @Column(nullable = true)
-    private String menuInfo;
+    private String imageUrl;
 
 }

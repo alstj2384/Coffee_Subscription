@@ -9,7 +9,6 @@ public class OAuthRegisterMapper {
         return User.builder()
                 .email(oauthRegisterDTO.getEmail())
                 .name(oauthRegisterDTO.getName())
-                .nickName(oauthRegisterDTO.getNickName())
                 .oauthProviderId(oauthRegisterDTO.getOauthProviderId())
                 .role(UserRole.customer)
                 .build();

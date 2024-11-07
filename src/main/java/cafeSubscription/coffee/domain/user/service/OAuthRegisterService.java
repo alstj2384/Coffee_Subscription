@@ -12,6 +12,8 @@ import cafeSubscription.coffee.global.exception.CustomException;
 import cafeSubscription.coffee.global.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,47 +23,46 @@ public class OAuthRegisterService {
     private final RegisterRepository registerRepository;
     private final BusinessRepository businessRepository;
 
+    private static final Logger log = LoggerFactory.getLogger(OAuthRegisterService.class);
+
     @Transactional
     public User registerOAuthUser(OAuthRegisterDTO oauthRegisterDTO) {
+        log.info("OAuth Register DTO: {}", oauthRegisterDTO);
 
         // 사용자 존재 여부 확인 (oauthProviderId 기준)
         User existingUser = registerRepository.findByOauthProviderId(oauthRegisterDTO.getOauthProviderId()).orElse(null);
 
         if (existingUser != null) {
-            return existingUser; // 바로 로그인 처리
+            return existingUser; // 기존 사용자 반환
         }
 
-        // 사용자 엔티티 생성
+        // 새로운 사용자 저장
         User user = OAuthRegisterMapper.toOAuthEntity(oauthRegisterDTO);
-
-        if (user.getNickName() == null || user.getNickName().isEmpty()) {
-            throw new CustomException(ErrorCode.INVALID_USER_DATA);
-        }
-
-
-        // 비즈니스 사용자 정보유무 확인
-        if (isBusinessUser(oauthRegisterDTO)) {
-            user.setRole(UserRole.owner);
-            User savedUser = registerRepository.save(user);
-
-            // 비즈니스 정보 저장
-            Business business = OAuthBusinessRegisterMapper.toOAuthBusinessEntity(oauthRegisterDTO, savedUser);
-            businessRepository.save(business);
-
-            return savedUser;
-        } else {
-
-            user.setRole(UserRole.customer);
-            return registerRepository.save(user);
-        }
+        return registerRepository.save(user);
     }
 
-    // 비즈니스 사용자 정보가 있는지 여부 체크 메서드
-    private boolean isBusinessUser(OAuthRegisterDTO oauthRegisterDTO) {
-        return oauthRegisterDTO.getBusinessNumber() != null &&
-                oauthRegisterDTO.getBName() != null &&
-                oauthRegisterDTO.getBankAccount() != null &&
-                oauthRegisterDTO.getOpeningDate() != null;
+    @Transactional
+    public User updateOAuthUser(Long userId, String nickname, boolean isBusinessUser, OAuthRegisterDTO oauthRegisterDTO) {
+        User user = registerRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.NON_EXISTENT_USER));
+
+        // 사용자 정보 업데이트
+        user.setNickName(nickname);
+
+        if (isBusinessUser) {
+            user.setRole(UserRole.owner);
+            Business business = new Business();
+            business.setUser(user);
+            business.setBusinessNumber(oauthRegisterDTO.getBusinessNumber());
+            business.setBName(oauthRegisterDTO.getBName());
+            business.setBankAccount(oauthRegisterDTO.getBankAccount());
+            business.setOpeningDate(oauthRegisterDTO.getOpeningDate());
+            businessRepository.save(business);
+        } else {
+            user.setRole(UserRole.customer);
+        }
+
+        return registerRepository.save(user);
     }
 }
+
 

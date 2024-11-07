@@ -1,5 +1,6 @@
 package cafeSubscription.coffee.domain.user.entity;
 
+import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import jakarta.persistence.*;
 import jdk.jfr.Enabled;
 import lombok.*;
@@ -36,4 +37,7 @@ public class Business {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user; // User 1대1
+
+    @OneToOne(mappedBy = "business", fetch=FetchType.LAZY)
+    private Cafe cafe;
 }

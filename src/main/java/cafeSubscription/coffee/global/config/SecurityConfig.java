@@ -1,5 +1,7 @@
 package cafeSubscription.coffee.global.config;
 
+import cafeSubscription.coffee.domain.user.service.CustomOAuth2UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,7 +16,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomOAuth2UserService customOAuth2UserService;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -24,13 +30,14 @@ public class SecurityConfig {
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.disable())) // X-Frame-Options 비활성화
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/api/users/**","/h2-console/**").permitAll() // 공개 URL
+                        .requestMatchers("/api/users/**","/h2-console/**","/login", "/oauth2/**").permitAll() // 공개 URL
                         .requestMatchers("/admin").hasRole("ADMIN") // ADMIN 권한이 필요한 URL
                         .anyRequest().authenticated()) // 나머지 URL은 인증 필요
                 .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("/",true))//로그인 성공 후 리다이렉트 기본 경로
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)))
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // 세션 정책 설정
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)); // 세션 정책 설정
 
         return http.build();
     }

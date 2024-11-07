@@ -1,6 +1,7 @@
-package cafeSubscription.coffee.domain.cafe;
+package cafeSubscription.coffee.domain.cafe.entity;
 
-import cafeSubscription.coffee.domain.operatingHour.OperatingHour;
+import cafeSubscription.coffee.domain.image.entity.ImageAll;
+import cafeSubscription.coffee.domain.user.entity.Business;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,8 +18,6 @@ public class Cafe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cafeId;
-
-    // TODO Business,OperatingHour 연관시키기
 
     @Column(nullable = false)
     private String cafeName;
@@ -37,4 +36,12 @@ public class Cafe {
 
     @Column(nullable = false)
     private String location;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "business_id", nullable = false)
+    private Business business;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id", nullable = false)
+    private ImageAll imageAll; // ImageAll 엔티티에 대한 단방향 참조
 }

@@ -51,6 +51,9 @@ public enum ErrorCode {
     // 존재하지 않는 카페
     CAFE_NOT_FOUND("존재하지 않는 카페입니다", HttpStatus.NOT_FOUND),
 
+    // 카페 소유자 일치 여부 확인
+    UNAUTHORIZED_ACCESS("카페 소유자 일치 여부 확인", HttpStatus.UNAUTHORIZED),
+
 
     /**
      * DIARY
