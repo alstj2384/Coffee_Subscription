@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
@@ -32,5 +34,9 @@ public class ReviewService {
     public void delete(Integer reviewId) {
         reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + reviewId));
+    }
+
+    public List<Review> findAll() {
+        return reviewRepository.findAll();
     }
 }
