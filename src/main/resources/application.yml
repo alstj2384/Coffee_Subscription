@@ -8,3 +8,5 @@ spring:
       "local": "local, secrets"
 
 
+file:
+  dir: src/main/resource/images/
