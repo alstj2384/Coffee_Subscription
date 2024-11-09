@@ -28,20 +28,20 @@ public class DiaryService {
     }
 
     // 일기 하나 상세 조회(사장별로 구별해야 하지 않나..)
-    public Diary findById(Integer diaryId) {
-        return diaryRepository.findById(diaryId)
+    public Diary findById(long diaryId) {
+        return diaryRepository.findById((int) diaryId)
             .orElseThrow(() -> new IllegalArgumentException("not found: " + diaryId)); // 예외처리
     }
 
     // 일기 삭제
-    public void delete(Integer diaryId) {
-        diaryRepository.deleteById(diaryId);
+    public void delete(long diaryId) {
+        diaryRepository.deleteById((int) diaryId);
     }
 
     // 일기 수정
     @Transactional
-    public Diary update(Integer diaryId, UpdateDiaryRequest request) {
-        Diary diary = diaryRepository.findById(diaryId)
+    public Diary update(long diaryId, UpdateDiaryRequest request) {
+        Diary diary = diaryRepository.findById((int) diaryId)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + diaryId)); // 예외처리
 
         diary.update(request.getTitle(), request.getDiaryContent());

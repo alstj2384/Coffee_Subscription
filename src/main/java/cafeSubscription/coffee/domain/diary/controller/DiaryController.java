@@ -39,13 +39,13 @@ public class DiaryController {
     }
 
     @DeleteMapping("/{diaryId}")
-    public ResponseEntity<Map<String, Object>> deleteDiary(@PathVariable Integer diaryId) {
+    public ResponseEntity<Map<String, Object>> deleteDiary(@PathVariable long diaryId) {
         diaryService.delete(diaryId);
         return createResponseEntity(null, "일기 삭제가 완료되었습니다.", HttpStatus.OK);
     }
 
     @PutMapping("/{diaryId}")
-    public ResponseEntity<Map<String, Object>> updateDiary(@PathVariable Integer diaryId,
+    public ResponseEntity<Map<String, Object>> updateDiary(@PathVariable long diaryId,
                                                            @RequestBody UpdateDiaryRequest request) {
         Diary updatedDiary = diaryService.update(diaryId, request);
         return createResponseEntity(updatedDiary, "일기 수정이 완료되었습니다.", HttpStatus.OK);

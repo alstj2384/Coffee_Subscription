@@ -21,7 +21,7 @@ import java.util.List;
 public class Diary {
 @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer diaryId;
+    private long diaryId;
 
     @ManyToOne
     private Cafe cafe;

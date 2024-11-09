@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 public class DiaryResponse {
-    private Integer diaryId;
+    private long diaryId;
     private final String title;
     private final String diaryContent;
     private List<String> thumbnail;
