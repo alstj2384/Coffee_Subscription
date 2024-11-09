@@ -1,6 +1,6 @@
-package cafeSubscription.coffee.domain.Image.DTO;
+package cafeSubscription.coffee.domain.image.DTO;
 
-import cafeSubscription.coffee.domain.Image.Image;
+import cafeSubscription.coffee.domain.image.entity.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

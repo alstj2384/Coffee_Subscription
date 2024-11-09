@@ -1,10 +1,10 @@
 package cafeSubscription.coffee.global.file;
 
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
-import cafeSubscription.coffee.domain.diary.Diary;
+import cafeSubscription.coffee.domain.diary.entity.Diary;
 import cafeSubscription.coffee.domain.menu.entity.Menu;
-import cafeSubscription.coffee.domain.review.Review;
-import cafeSubscription.coffee.domain.user.User;
+import cafeSubscription.coffee.domain.review.entity.Review;
+import cafeSubscription.coffee.domain.user.entity.User;
 import cafeSubscription.coffee.global.file.dto.ImageCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

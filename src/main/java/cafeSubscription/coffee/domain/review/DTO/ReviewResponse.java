@@ -1,8 +1,8 @@
 package cafeSubscription.coffee.domain.review.DTO;
 
-import cafeSubscription.coffee.domain.review.Review;
+import cafeSubscription.coffee.domain.review.entity.Review;
 import cafeSubscription.coffee.domain.review.custom.Keyword;
-import cafeSubscription.coffee.domain.user.User;
+import cafeSubscription.coffee.domain.user.entity.User;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

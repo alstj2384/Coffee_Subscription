@@ -1,11 +1,11 @@
-package cafeSubscription.coffee.domain.Image.DTO;
+package cafeSubscription.coffee.domain.image.DTO;
 
-import cafeSubscription.coffee.domain.Image.Image;
+import cafeSubscription.coffee.domain.image.entity.Image;
 import lombok.Getter;
 
 @Getter
 public class ImageResponse {
-    private final Integer imageId;
+    private final Long imageId;
     private final String imagePath;
 
     public ImageResponse(Image image) {

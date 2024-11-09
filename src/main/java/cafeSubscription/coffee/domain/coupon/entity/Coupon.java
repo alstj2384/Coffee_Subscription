@@ -2,7 +2,7 @@ package cafeSubscription.coffee.domain.coupon.entity;
 
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.subscription.entity.Subscription;
-import cafeSubscription.coffee.domain.user.User;
+import cafeSubscription.coffee.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

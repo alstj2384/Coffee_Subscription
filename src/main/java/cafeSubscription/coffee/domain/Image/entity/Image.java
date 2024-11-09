@@ -1,4 +1,4 @@
-package cafeSubscription.coffee.domain.Image;
+package cafeSubscription.coffee.domain.image.entity;
 
 import cafeSubscription.coffee.domain.custom.ImageType;
 import cafeSubscription.coffee.domain.custom.ImageTypeConverter;
@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "imageAll")
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

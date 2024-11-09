@@ -1,7 +1,7 @@
 package cafeSubscription.coffee.domain.review.service;
 
 import cafeSubscription.coffee.domain.review.DTO.AddReviewRequest;
-import cafeSubscription.coffee.domain.review.Review;
+import cafeSubscription.coffee.domain.review.entity.Review;
 import cafeSubscription.coffee.domain.review.custom.Keyword;
 import cafeSubscription.coffee.domain.review.repository.ReviewRepository;
 import jakarta.transaction.Transactional;

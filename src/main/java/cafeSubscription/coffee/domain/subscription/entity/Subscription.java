@@ -1,7 +1,7 @@
 package cafeSubscription.coffee.domain.subscription.entity;
 
 import cafeSubscription.coffee.domain.subscription.dto.SubscriptionType;
-import cafeSubscription.coffee.domain.user.User;
+import cafeSubscription.coffee.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -61,4 +61,6 @@ public class Subscription {
         usedCount += 1;
         lastUsedDate = LocalDateTime.now();
     }
+
+
 }

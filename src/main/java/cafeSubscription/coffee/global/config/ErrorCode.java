@@ -9,6 +9,8 @@ public enum ErrorCode {
     /**
      * USER
      */
+    // 이미 존재하는 유저
+    EXISTENT_USER("이미 존재하는 유저입니다",HttpStatus.CONFLICT),
 
     // 이미 사용중인 이메일
     DUPLICATE_USER_EMAIL("이미 사용 중인 이메일입니다", HttpStatus.CONFLICT),
@@ -16,8 +18,17 @@ public enum ErrorCode {
     // 이미 사용중인 닉네임
     DUPLICATE_USER_NICKNAME("이미 사용 중인 닉네임입니다", HttpStatus.CONFLICT),
 
+    // 이미 사용중인 아이디
+    DUPLICATE_USER_USERNAME("이미 사용 중인 아이디입니다", HttpStatus.CONFLICT),
+
     // 존재하지않는 유저
     NON_EXISTENT_USER("존재하지 않는 유저입니다", HttpStatus.BAD_REQUEST),
+
+    // 회원가입에 필요한 값 필요
+    INVALID_USER_DATA("회원가입에 필요한 값이 누락되었습니다", HttpStatus.BAD_REQUEST),
+
+    // 사용자 일치 불일치
+    USER_MISMATCH("사용자가 일치하지 않습니다.", HttpStatus.FORBIDDEN),
 
 
     /**
@@ -45,6 +56,9 @@ public enum ErrorCode {
 
     // 존재하지 않는 카페
     CAFE_NOT_FOUND("존재하지 않는 카페입니다", HttpStatus.NOT_FOUND),
+
+    // 카페 소유자 일치 여부 확인
+    UNAUTHORIZED_ACCESS("카페 소유자 일치 여부 확인", HttpStatus.UNAUTHORIZED),
 
 
     /**
@@ -128,7 +142,7 @@ public enum ErrorCode {
 
 
     // 핀 번호 불일치
-    COUPON_PIN_NOT_MATCH("핀 번호가 일치하지 않습니다", HttpStatus.NOT_FOUND);
+    COUPON_PIN_NOT_MATCH("핀 번호가 일치하지 않습니다", HttpStatus.NOT_FOUND),
 
     //쿠폰 조회실패
     COUPON_NOT_FOUND("쿠폰 조회에 실패했습니다", HttpStatus.NOT_FOUND);

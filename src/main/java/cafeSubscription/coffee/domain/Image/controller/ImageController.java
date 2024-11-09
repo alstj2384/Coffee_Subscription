@@ -1,8 +1,8 @@
-package cafeSubscription.coffee.domain.Image.controller;
+package cafeSubscription.coffee.domain.image.controller;
 
-import cafeSubscription.coffee.domain.Image.DTO.AddImageRequest;
-import cafeSubscription.coffee.domain.Image.DTO.ImageResponse;
-import cafeSubscription.coffee.domain.Image.service.ImageService;
+import cafeSubscription.coffee.domain.image.DTO.AddImageRequest;
+import cafeSubscription.coffee.domain.image.DTO.ImageResponse;
+import cafeSubscription.coffee.domain.image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

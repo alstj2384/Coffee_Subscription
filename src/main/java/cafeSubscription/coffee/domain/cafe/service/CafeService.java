@@ -1,6 +1,6 @@
 package cafeSubscription.coffee.domain.cafe.service;
 
-import cafeSubscription.coffee.domain.cafe.DTO.request.SearchAttributes;
+import cafeSubscription.coffee.domain.cafe.dto.request.SearchAttributes;
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.cafe.repository.CafeRepository;
 import cafeSubscription.coffee.domain.cafe.search.SearchType;

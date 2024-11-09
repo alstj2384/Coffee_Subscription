@@ -1,10 +1,10 @@
-package cafeSubscription.coffee.domain.review;
+package cafeSubscription.coffee.domain.review.entity;
 
 
-import cafeSubscription.coffee.domain.cafe.Cafe;
+import cafeSubscription.coffee.domain.cafe.entity.Cafe;
+import cafeSubscription.coffee.domain.user.entity.User;
 import cafeSubscription.coffee.domain.review.custom.Keyword;
 import cafeSubscription.coffee.domain.review.custom.KeywordConverter;
-import cafeSubscription.coffee.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +26,7 @@ public class Review {
     private Long reviewId;
 
     @ManyToOne
+    @JoinColumn(name = "cafe_id", nullable = false)
     private Cafe cafe;
 
     @ManyToOne

@@ -1,6 +1,6 @@
 package cafeSubscription.coffee.domain.diary.DTO;
 
-import cafeSubscription.coffee.domain.diary.Diary;
+import cafeSubscription.coffee.domain.diary.entity.Diary;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

@@ -1,6 +1,6 @@
-package cafeSubscription.coffee.domain.diary;
+package cafeSubscription.coffee.domain.diary.entity;
 
-import cafeSubscription.coffee.domain.cafe.Cafe;
+import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,9 +19,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Diary {
-@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long diaryId;
+    private Long diaryId;
 
     @ManyToOne
     private Cafe cafe;

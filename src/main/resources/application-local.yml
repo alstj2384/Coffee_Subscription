@@ -41,3 +41,15 @@ spring:
         # 로컬 환경에서 SQL 동작 확인을 위한 설정
 #        format_sql: true
 #        show_sql: true
+
+  #OAuth
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 1054896415438-sk4clmkmkq0cqiqvghdhttmv1gulc8fe.apps.googleusercontent.com
+            client-secret: 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
+            scope: openid, email, profile
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+

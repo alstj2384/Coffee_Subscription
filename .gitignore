@@ -6,6 +6,9 @@ build/
 !**/src/test/**/build/
 **/resources/application-secrets.yml
 
+#Ignore file
+.env
+
 ### STS ###
 .apt_generated
 .classpath

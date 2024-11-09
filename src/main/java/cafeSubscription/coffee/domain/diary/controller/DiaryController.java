@@ -3,7 +3,7 @@ package cafeSubscription.coffee.domain.diary.controller;
 import cafeSubscription.coffee.domain.diary.DTO.AddDiaryRequest;
 import cafeSubscription.coffee.domain.diary.DTO.DiaryResponse;
 import cafeSubscription.coffee.domain.diary.DTO.UpdateDiaryRequest;
-import cafeSubscription.coffee.domain.diary.Diary;
+import cafeSubscription.coffee.domain.diary.entity.Diary;
 import cafeSubscription.coffee.domain.diary.service.DiaryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

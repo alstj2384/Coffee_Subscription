@@ -1,8 +1,8 @@
-package cafeSubscription.coffee.domain.Image.service;
+package cafeSubscription.coffee.domain.image.service;
 
-import cafeSubscription.coffee.domain.Image.DTO.AddImageRequest;
-import cafeSubscription.coffee.domain.Image.Image;
-import cafeSubscription.coffee.domain.Image.repository.ImageRepository;
+import cafeSubscription.coffee.domain.image.DTO.AddImageRequest;
+import cafeSubscription.coffee.domain.image.entity.Image;
+import cafeSubscription.coffee.domain.image.repository.ImageRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

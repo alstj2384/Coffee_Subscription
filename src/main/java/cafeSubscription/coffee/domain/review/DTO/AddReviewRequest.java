@@ -1,6 +1,6 @@
 package cafeSubscription.coffee.domain.review.DTO;
 
-import cafeSubscription.coffee.domain.review.Review;
+import cafeSubscription.coffee.domain.review.entity.Review;
 import cafeSubscription.coffee.domain.review.custom.Keyword;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

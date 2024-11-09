@@ -7,8 +7,8 @@ import cafeSubscription.coffee.domain.coupon.entity.Coupon;
 import cafeSubscription.coffee.domain.coupon.repository.CouponRepository;
 import cafeSubscription.coffee.domain.subscription.entity.Subscription;
 import cafeSubscription.coffee.domain.subscription.repository.SubscriptionRepository;
-import cafeSubscription.coffee.domain.user.User;
-import cafeSubscription.coffee.domain.user.UserRepository;
+import cafeSubscription.coffee.domain.user.entity.User;
+import cafeSubscription.coffee.domain.user.repository.UserRepository;
 import cafeSubscription.coffee.global.config.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +54,7 @@ public class CouponService {
         if(!subscription.isValid())
             throw new IllegalArgumentException(ErrorCode.SUBSCRIPTION_EXPIRED.getMsg());
 
-        log.info("[useCoupon] Valid Coupon!");
+        log.info("[useCoupon] Valid Coupon2!");
 
         if(subscription.isUsedToday()){
            throw new IllegalArgumentException(ErrorCode.COUPON_ALREADY_IN_USE.getMsg());
@@ -62,7 +62,7 @@ public class CouponService {
 
 
         subscription.useCoupon();
-        log.info("[useCoupon] Coupon Used Completely!");
+        log.info("[useCoupon] Coupon2 Used Completely!");
 
 
         Coupon coupon = Coupon.builder()
