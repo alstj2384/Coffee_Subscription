@@ -2,14 +2,12 @@ package cafeSubscription.coffee.domain.cafe.entity;
 
 import cafeSubscription.coffee.domain.operatingHour.OperatingHour;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cafe {
@@ -17,6 +15,7 @@ public class Cafe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cafeId;
+
 
     // TODO Business,OperatingHour 연관시키기
 
@@ -26,15 +25,29 @@ public class Cafe {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column
     private Integer pin;
 
-    @Column(nullable = false)
+    @Column
     private Double cLatitude;
 
-    @Column(nullable = false)
+    @Column
     private Double cLongitude;
 
     @Column(nullable = false)
     private String location;
+
+    @OneToOne(cascade = CascadeType.PERSIST) // 카페 저장 시 운영시간도 저장하도록 설정
+    @JoinColumn(name = "operating_hour_id")
+    private OperatingHour operatingHour;
+
+    @Builder
+    public Cafe(String cafeName, String description, Integer pin, String location, OperatingHour operatingHour) {
+        this.cafeName = cafeName;
+        this.description = description;
+        this.pin = pin;
+        this.location = location;
+        this.operatingHour = operatingHour;
+    }
+
 }
