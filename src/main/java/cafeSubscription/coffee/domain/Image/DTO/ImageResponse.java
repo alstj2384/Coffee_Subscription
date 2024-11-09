@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class ImageResponse {
-    private final Integer imageId;
+    private final Long imageId;
     private final String imagePath;
 
     public ImageResponse(Image image) {
