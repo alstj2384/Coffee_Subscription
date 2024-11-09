@@ -25,12 +25,12 @@ public class ReviewController {
     }
 
     @PutMapping("/{reviewId}")
-    public ResponseEntity<Map<String, Object>> updateReview(@PathVariable Integer reviewId, AddReviewRequest request) {
+    public ResponseEntity<Map<String, Object>> updateReview(@PathVariable Long reviewId, AddReviewRequest request) {
         return createResponseEntity(reviewService.update(reviewId, request), "리뷰 수정이 완료되었습니다.", HttpStatus.OK);
     }
 
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Map<String, Object>> deleteReview(@PathVariable Integer reviewId) {
+    public ResponseEntity<Map<String, Object>> deleteReview(@PathVariable Long reviewId) {
         reviewService.delete(reviewId);
         return createResponseEntity(null, "리뷰 삭제가 완료되었습니다.", HttpStatus.OK);
     }
