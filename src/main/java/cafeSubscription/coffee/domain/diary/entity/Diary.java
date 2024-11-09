@@ -1,4 +1,4 @@
-package cafeSubscription.coffee.domain.diary;
+package cafeSubscription.coffee.domain.diary.entity;
 
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import jakarta.persistence.*;

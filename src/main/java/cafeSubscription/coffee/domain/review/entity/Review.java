@@ -1,4 +1,4 @@
-package cafeSubscription.coffee.domain.review;
+package cafeSubscription.coffee.domain.review.entity;
 
 
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
