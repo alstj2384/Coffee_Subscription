@@ -21,7 +21,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public Review update(Integer reviewId, AddReviewRequest request) {
+    public Review update(Long reviewId, AddReviewRequest request) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + reviewId)); // 예외처리
 
@@ -31,7 +31,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public void delete(Integer reviewId) {
+    public void delete(Long reviewId) {
         reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + reviewId));
     }
