@@ -3,8 +3,8 @@ package cafeSubscription.coffee.domain.user.service;
 
 import cafeSubscription.coffee.domain.user.entity.User;
 import cafeSubscription.coffee.domain.user.repository.UserRepository;
-import cafeSubscription.coffee.global.exception.CustomException;
-import cafeSubscription.coffee.global.exception.ErrorCode;
+import cafeSubscription.coffee.global.config.CustomException;
+import cafeSubscription.coffee.global.config.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     // 사용자 조회
-    public User findById(Integer userId) {
+    public User findById(Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isEmpty()) {
             throw new CustomException(ErrorCode.NON_EXISTENT_USER);
@@ -25,7 +25,7 @@ public class UserService {
         return userOptional.get();
     }
 
-    public User updateNickname(Integer userId, String newNickname) {
+    public User updateNickname(long userId, String newNickname) {
         User user = findById(userId);
 
         user.setNickName(newNickname);

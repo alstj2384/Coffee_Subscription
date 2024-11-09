@@ -1,4 +1,4 @@
-package cafeSubscription.coffee.global.exception;
+package cafeSubscription.coffee.global.config;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -29,6 +29,7 @@ public enum ErrorCode {
 
     // 사용자 일치 불일치
     USER_MISMATCH("사용자가 일치하지 않습니다.", HttpStatus.FORBIDDEN),
+
 
     /**
      * BUSINESS

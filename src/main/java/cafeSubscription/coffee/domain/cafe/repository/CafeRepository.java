@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 @Repository
 public interface CafeRepository extends JpaRepository<Cafe, Long> {
-    Optional<Cafe> findByCafeId(Integer cafeId);
+    Optional<Cafe> findByCafeId(Long cafeId);
 }

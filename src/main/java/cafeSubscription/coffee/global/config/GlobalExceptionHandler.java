@@ -1,4 +1,4 @@
-package cafeSubscription.coffee.global.exception;
+package cafeSubscription.coffee.global.config;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -3,6 +3,8 @@ package cafeSubscription.coffee.domain.user.service;
 import cafeSubscription.coffee.domain.user.dto.LoginDTO;
 import cafeSubscription.coffee.domain.user.entity.User;
 import cafeSubscription.coffee.domain.user.repository.RegisterRepository;
+import cafeSubscription.coffee.global.config.CustomException;
+import cafeSubscription.coffee.global.config.ErrorCode;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -25,10 +27,10 @@ public class JwtService {
 
     public Map<String, String> login(LoginDTO loginDTO) {
         User user = registerRepository.findByUsername(loginDTO.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Username not found"));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_MISMATCH));
 
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("Wrong password");
+            throw new CustomException(ErrorCode.USER_MISMATCH);
         }
 
         //액세스 및 리프레시 토큰 생성 메서드

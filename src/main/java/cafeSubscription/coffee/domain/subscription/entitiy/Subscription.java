@@ -1,5 +1,8 @@
-package cafeSubscription.coffee.domain.subscription;
+package cafeSubscription.coffee.domain.subscription.entitiy;
 
+import cafeSubscription.coffee.domain.cafe.entity.Coupon;
+import cafeSubscription.coffee.domain.subscription.SubscriptionType;
+import cafeSubscription.coffee.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Builder
@@ -16,7 +20,7 @@ import java.time.LocalDateTime;
 public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer subscriptionId;
+    private Long subscriptionId;
 
     @Column(nullable = false)
     private SubscriptionType subscriptionType;
@@ -29,4 +33,10 @@ public class Subscription {
 
     @Column(nullable = true)
     private LocalDateTime lastUsedDate;
+
+    @OneToOne(mappedBy = "subscription", fetch = FetchType.LAZY)
+    private User user;
+
+    @OneToMany(mappedBy = "subscription", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Coupon> coupons;
 }

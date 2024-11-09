@@ -1,4 +1,4 @@
-package cafeSubscription.coffee.global.exception;
+package cafeSubscription.coffee.global.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

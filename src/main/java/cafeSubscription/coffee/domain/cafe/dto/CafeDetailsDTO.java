@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Builder
 public class CafeDetailsDTO {
-    private Integer cafeId;
+    private Long cafeId;
     private String cafeName;
     private String role;
     private Integer pin;

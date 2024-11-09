@@ -5,25 +5,19 @@ import cafeSubscription.coffee.domain.cafe.dto.CafeDetailsDTO;
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.cafe.mapper.CafeDetailsMapper;
 import cafeSubscription.coffee.domain.cafe.repository.CafeRepository;
-import cafeSubscription.coffee.domain.cafe.repository.ImageRepository;
-import cafeSubscription.coffee.domain.image.entity.ImageAll;
-import cafeSubscription.coffee.domain.user.entity.Business;
-import cafeSubscription.coffee.global.exception.CustomException;
-import cafeSubscription.coffee.global.exception.ErrorCode;
+import cafeSubscription.coffee.global.config.CustomException;
+import cafeSubscription.coffee.global.config.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.awt.*;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class CafeDetailService {
     private final CafeRepository cafeRepository;
 
-    public CafeDetailsDTO getCafeDetails(Integer cafeId) {
+    public CafeDetailsDTO getCafeDetails(Long cafeId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName(); // 현재 로그인된 사용자의 이메일
 

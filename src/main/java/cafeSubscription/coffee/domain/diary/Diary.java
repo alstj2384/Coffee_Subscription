@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class Diary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer diaryId;
+    private Long diaryId;
 
     @ManyToOne
     private Cafe cafe;

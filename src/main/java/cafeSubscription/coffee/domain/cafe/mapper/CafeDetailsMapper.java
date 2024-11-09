@@ -1,13 +1,9 @@
 package cafeSubscription.coffee.domain.cafe.mapper;
 
 import cafeSubscription.coffee.domain.cafe.dto.CafeDetailsDTO;
-import cafeSubscription.coffee.domain.cafe.dto.ImageDTO;
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
-import cafeSubscription.coffee.domain.image.entity.ImageAll;
-import cafeSubscription.coffee.global.exception.CustomException;
-import cafeSubscription.coffee.global.exception.ErrorCode;
-
-import java.awt.*;
+import cafeSubscription.coffee.global.config.CustomException;
+import cafeSubscription.coffee.global.config.ErrorCode;
 
 public class CafeDetailsMapper {
     public static CafeDetailsDTO toCafeDetailDto(Cafe cafe) {

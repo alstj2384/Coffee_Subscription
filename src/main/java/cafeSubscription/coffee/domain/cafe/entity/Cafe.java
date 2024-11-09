@@ -1,12 +1,15 @@
 package cafeSubscription.coffee.domain.cafe.entity;
 
 import cafeSubscription.coffee.domain.image.entity.ImageAll;
+import cafeSubscription.coffee.domain.review.Review;
 import cafeSubscription.coffee.domain.user.entity.Business;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Builder
@@ -17,7 +20,7 @@ public class Cafe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cafeId;
+    private Long cafeId;
 
     @Column(nullable = false)
     private String cafeName;
@@ -43,5 +46,8 @@ public class Cafe {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id", nullable = false)
-    private ImageAll imageAll; // ImageAll 엔티티에 대한 단방향 참조
+    private ImageAll imageAll;
+
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews;
 }

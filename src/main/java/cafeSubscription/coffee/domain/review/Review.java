@@ -20,9 +20,10 @@ import java.time.LocalDateTime;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer reviewId;
+    private Long reviewId;
 
     @ManyToOne
+    @JoinColumn(name = "cafe_id", nullable = false)
     private Cafe cafe;
 
     @ManyToOne

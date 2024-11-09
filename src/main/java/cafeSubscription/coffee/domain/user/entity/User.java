@@ -1,6 +1,7 @@
 package cafeSubscription.coffee.domain.user.entity;
 
 
+import cafeSubscription.coffee.domain.subscription.entitiy.Subscription;
 import cafeSubscription.coffee.domain.user.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,7 +16,7 @@ import lombok.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private Long userId;
 
     @Column(nullable = false)
     private String name;
@@ -36,6 +37,10 @@ public class User {
     @Column(nullable = true, unique = true)
     private String oauthProviderId; //oauth 사용자 고유 ID값
 
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subscription_id")
+    private Subscription subscription;
 
 //    @Column(nullable = true)
 //    private String oauthProvider; //ouath가 구글, 카카오인지 구별 (추후 추가시 필요로 보류)

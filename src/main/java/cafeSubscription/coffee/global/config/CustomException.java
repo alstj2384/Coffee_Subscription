@@ -1,4 +1,4 @@
-package cafeSubscription.coffee.global.exception;
+package cafeSubscription.coffee.global.config;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

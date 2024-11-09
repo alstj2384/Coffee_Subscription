@@ -2,8 +2,8 @@ package cafeSubscription.coffee.domain.user.controller;
 
 import cafeSubscription.coffee.domain.user.entity.User;
 import cafeSubscription.coffee.domain.user.service.UserService;
-import cafeSubscription.coffee.global.exception.CustomException;
-import cafeSubscription.coffee.global.exception.ErrorCode;
+import cafeSubscription.coffee.global.config.CustomException;
+import cafeSubscription.coffee.global.config.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,7 +19,7 @@ public class UserController {
 
     //일반 사용자 닉네임변경
     @PatchMapping("/{userId}/nickname")
-    public ResponseEntity<String> updateNickName(@PathVariable Integer userId, @RequestBody String nickname) {
+    public ResponseEntity<String> updateNickName(@PathVariable long userId, @RequestBody String nickname) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String authenticatedEmail = authentication.getName();

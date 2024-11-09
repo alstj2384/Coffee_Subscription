@@ -20,7 +20,7 @@ public class CafeDetailController {
     private final CafeDetailService cafeDetailService;
 
     @GetMapping("/{cafeId}")
-    public ResponseEntity<CafeDetailsDTO> getCafeDetails(@PathVariable Integer cafeId) {
+    public ResponseEntity<CafeDetailsDTO> getCafeDetails(@PathVariable Long cafeId) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName(); // 이메일을 사용자 식별자로 가정
