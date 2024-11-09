@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer imageId;
+    private Long imageId;
 
     @Column(nullable = false)
     private String imagePath;
