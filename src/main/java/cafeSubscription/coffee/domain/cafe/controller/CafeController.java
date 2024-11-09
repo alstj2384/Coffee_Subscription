@@ -38,7 +38,7 @@ public class CafeController {
     }
 
     @GetMapping("/{cafeId}") // 카페 단건 조회
-    public ResponseEntity<Map<String, Object>> getCafe(@PathVariable Integer cafeId) {
+    public ResponseEntity<Map<String, Object>> getCafe(@PathVariable long cafeId) {
 
         Cafe cafe = cafeService.findById(cafeId);
 
@@ -63,16 +63,16 @@ public class CafeController {
     }
 
     @DeleteMapping("/{cafeId}") // 카페 삭제
-    public ResponseEntity<Map<String, Object>> deleteCafe(@PathVariable Integer cafeId) {
+    public ResponseEntity<Map<String, Object>> deleteCafe(@PathVariable long cafeId) {
         cafeService.delete(cafeId);
         return createResponseEntity(null, "카페 삭제에 성공하였습니다.", HttpStatus.OK);
     }
 
     @PutMapping("/{cafeId}") // 카페 수정
-    public ResponseEntity<Map<String, Object>> updateCafe(@PathVariable Integer cafeId,
+    public ResponseEntity<Map<String, Object>> updateCafe(@PathVariable long cafeId,
                                                           @RequestBody UpdateCafeRequest request) {
         // UpdateCafeRequest에서 받은 데이터를 통해 Cafe를 업데이트
-        OperatingHour updatedOperatingHour = operatingHourService.update(cafeId, request.getOperatingHour()); // 운영시간 업데이트
+        OperatingHour updatedOperatingHour = operatingHourService.update((int) cafeId, request.getOperatingHour()); // 운영시간 업데이트
         Cafe updatedCafe = cafeService.update(cafeId, request.toEntity(updatedOperatingHour));
 
         Map<String, Object> data = createCafeData(updatedCafe); // 업데이트된 데이터를 전달

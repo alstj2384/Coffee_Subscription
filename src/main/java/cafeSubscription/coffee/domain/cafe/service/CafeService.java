@@ -21,19 +21,15 @@ public class CafeService {
         return cafeRepository.findAll();
     }
 
-    //public Optional<Cafe> findById(Integer cafeId) {
-    //    return cafeRepository.findById(cafeId);
-    //}
-
-    public Cafe findById(Integer cafeId) {
-        return cafeRepository.findById(cafeId).orElse(null); // 카페가 없으면 null 반환
+    public Cafe findById(long cafeId) {
+        return cafeRepository.findById((int) cafeId).orElse(null); // 카페가 없으면 null 반환
     }
 
-    public void delete(Integer cafeId) {
-        cafeRepository.deleteById(cafeId);
+    public void delete(long cafeId) {
+        cafeRepository.deleteById((int) cafeId);
     }
 
-    public Cafe update(Integer cafeId, Cafe updatedCafe) {
+    public Cafe update(long cafeId, Cafe updatedCafe) {
         updatedCafe.setCafeId(cafeId);
         return cafeRepository.save(updatedCafe);
     }

@@ -14,7 +14,7 @@ public class Cafe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cafeId;
+    private long cafeId;
 
     @Column(nullable = false)
     private String cafeName;
