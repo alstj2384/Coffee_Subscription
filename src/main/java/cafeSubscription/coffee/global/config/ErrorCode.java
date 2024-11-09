@@ -41,6 +41,8 @@ public enum ErrorCode {
      * CAFE
      */
 
+    INVALID_SEARCH_TYPE("검색 요청이 올바르지 않습니다", HttpStatus.BAD_REQUEST),
+
     // 존재하지 않는 카페
     CAFE_NOT_FOUND("존재하지 않는 카페입니다", HttpStatus.NOT_FOUND),
 
@@ -109,6 +111,9 @@ public enum ErrorCode {
     // 만료된 구독,
     SUBSCRIPTION_EXPIRED("만료된 구독", HttpStatus.FORBIDDEN),
 
+    // 이미 구독중
+    SUBSCRIPTION_ALREADY_EXISTS("이미 구독중입니다", HttpStatus.BAD_REQUEST),
+
 
     /**
      * COUPON
@@ -120,8 +125,14 @@ public enum ErrorCode {
     // 쿠폰 사용 실패
     COUPON_USE_FAILED("쿠폰 사용에 실패했습니다", HttpStatus.INTERNAL_SERVER_ERROR),
 
-    // 쿠폰 조회 실패
+
+
+    // 핀 번호 불일치
+    COUPON_PIN_NOT_MATCH("핀 번호가 일치하지 않습니다", HttpStatus.NOT_FOUND);
+
+    //쿠폰 조회실패
     COUPON_NOT_FOUND("쿠폰 조회에 실패했습니다", HttpStatus.NOT_FOUND);
+
 
 
 

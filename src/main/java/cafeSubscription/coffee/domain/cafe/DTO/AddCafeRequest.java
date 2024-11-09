@@ -1,6 +1,6 @@
 package cafeSubscription.coffee.domain.cafe.DTO;
 
-import cafeSubscription.coffee.domain.cafe.Cafe;
+import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.operatingHour.OperatingHour;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

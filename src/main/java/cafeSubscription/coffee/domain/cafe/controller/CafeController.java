@@ -1,12 +1,16 @@
 package cafeSubscription.coffee.domain.cafe.controller;
 
-import cafeSubscription.coffee.domain.cafe.Cafe;
+import cafeSubscription.coffee.domain.cafe.DTO.request.SearchAttributes;
+import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.cafe.DTO.AddCafeRequest;
 import cafeSubscription.coffee.domain.cafe.DTO.UpdateCafeRequest;
+import cafeSubscription.coffee.domain.cafe.search.SearchType;
 import cafeSubscription.coffee.domain.cafe.service.CafeService;
 import cafeSubscription.coffee.domain.operatingHour.OperatingHour;
 import cafeSubscription.coffee.domain.operatingHour.service.OperatingHourService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +25,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/cafe")
 @RequiredArgsConstructor
+@Slf4j
 public class CafeController {
 
     private final CafeService cafeService;
@@ -98,5 +103,15 @@ public class CafeController {
         //data.put("location", cafe.getLocation());
 
         return data;
+    }
+
+    @PostMapping("/list")
+    public ResponseEntity<Page<Cafe>> getCafeList(@RequestParam(value = "type") SearchType searchType, @RequestBody SearchAttributes searchAttributes) {
+        log.info("[GetCafeList] Requested..");
+
+        Page<Cafe> list = cafeService.getCafeList(searchType, searchAttributes);
+
+        log.info("[GetCafeList] OK!");
+        return ResponseEntity.ok().body(list);
     }
 }

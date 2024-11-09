@@ -1,4 +1,4 @@
-package cafeSubscription.coffee.domain.cafe;
+package cafeSubscription.coffee.domain.cafe.entity;
 
 import cafeSubscription.coffee.domain.operatingHour.OperatingHour;
 import jakarta.persistence.*;
@@ -14,7 +14,10 @@ public class Cafe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long cafeId;
+    private Long cafeId;
+
+
+    // TODO Business,OperatingHour 연관시키기
 
     @Column(nullable = false)
     private String cafeName;
