@@ -15,7 +15,7 @@ public class CafeDetailsMapper {
                 .cafeName(cafe.getCafeName())
                 .pin(cafe.getPin())
                 .role(cafe.getBusiness().getUser().getRole().name())
-                .image(ImageMapper.toImageDto(cafe.getImageAll()))
+                .image(ImageMapper.toImageDto(cafe.getImage()))
                 .build();
     }
 }

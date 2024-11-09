@@ -4,7 +4,7 @@ import cafeSubscription.coffee.domain.cafe.dto.StatsDTO;
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.cafe.mapper.StatsMapper;
 import cafeSubscription.coffee.domain.cafe.repository.CafeRepository;
-import cafeSubscription.coffee.domain.cafe.repository.CouponRepository;
+import cafeSubscription.coffee.domain.coupon.repository.CouponRepository;
 import cafeSubscription.coffee.domain.diary.repositoty.DiaryRepository;
 import cafeSubscription.coffee.domain.review.repository.ReviewRepository;
 import cafeSubscription.coffee.global.config.CustomException;

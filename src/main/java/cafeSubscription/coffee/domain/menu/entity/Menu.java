@@ -2,16 +2,14 @@ package cafeSubscription.coffee.domain.menu.entity;
 
 
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
+import cafeSubscription.coffee.domain.menu.dto.request.MenuUpdateDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Menu {
     @Id
@@ -19,6 +17,7 @@ public class Menu {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "cafe_id")
     private Cafe cafe;
 
     @Column(nullable = false)
@@ -29,5 +28,11 @@ public class Menu {
 
     @Column(nullable = true)
     private String menuInfo;
+
+    public void updateMenu(MenuUpdateDto dto){
+        if(dto.getMenuInfo() != null) this.menuInfo = dto.getMenuInfo();
+        if(dto.getMenuName() != null) this.menuName = dto.getMenuName();
+        if(dto.getMPrice() != null) this.mPrice = dto.getMPrice();
+    }
 
 }

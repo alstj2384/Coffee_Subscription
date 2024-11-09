@@ -9,5 +9,5 @@ import lombok.Setter;
 @Builder
 public class ImageDTO {
     private Long imageId;
-    private String imageUrl;
+    private String imagePath;
 }
