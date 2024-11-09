@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 public class ReviewResponse {
-    private final Integer reviewId;
+    private final Long reviewId;
     private final User user;
     private final Keyword keyword;
     private final List<String> rImage;
