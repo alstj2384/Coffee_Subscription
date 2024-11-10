@@ -11,29 +11,28 @@ import cafeSubscription.coffee.global.config.CustomException;
 import cafeSubscription.coffee.global.config.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OAuthRegisterService {
 
     private final RegisterRepository registerRepository;
     private final BusinessRepository businessRepository;
 
-    private static final Logger log = LoggerFactory.getLogger(OAuthRegisterService.class);
+
+    public Optional<User> findUserByOauthProviderId(String oauthProviderId) {
+        return registerRepository.findByOauthProviderId(oauthProviderId);
+    }
 
     @Transactional
     public User registerOAuthUser(OAuthRegisterDTO oauthRegisterDTO) {
-        log.info("OAuth Register DTO: {}", oauthRegisterDTO);
-
-        // 사용자 존재 여부 확인 (oauthProviderId 기준)
-        User existingUser = registerRepository.findByOauthProviderId(oauthRegisterDTO.getOauthProviderId()).orElse(null);
-
-        if (existingUser != null) {
-            return existingUser; // 기존 사용자 반환
-        }
 
         // 새로운 사용자 저장
         User user = OAuthRegisterMapper.toOAuthEntity(oauthRegisterDTO);
@@ -41,8 +40,13 @@ public class OAuthRegisterService {
     }
 
     @Transactional
-    public User updateOAuthUser(Long userId, String nickname, boolean isBusinessUser, OAuthRegisterDTO oauthRegisterDTO) {
-        User user = registerRepository.findById(userId).orElseThrow(() -> new CustomException(ErrorCode.NON_EXISTENT_USER));
+    public User updateOAuthUserByProviderId(String oauthProviderId, String nickname, boolean isBusinessUser, OAuthRegisterDTO oauthRegisterDTO) {
+        //닉네임 중복 확인 로직 추가
+        if(registerRepository.findByNickName(nickname).isPresent()){
+            throw new CustomException(ErrorCode.DUPLICATE_USER_NICKNAME);
+        }
+
+        User user = registerRepository.findByOauthProviderId(oauthProviderId).orElseThrow(() -> new CustomException(ErrorCode.NON_EXISTENT_USER));
 
         // 사용자 정보 업데이트
         user.setNickName(nickname);

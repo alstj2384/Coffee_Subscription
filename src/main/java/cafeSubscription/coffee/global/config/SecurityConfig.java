@@ -1,25 +1,32 @@
 package cafeSubscription.coffee.global.config;
 
 import cafeSubscription.coffee.domain.user.service.CustomOAuth2UserService;
+import cafeSubscription.coffee.domain.user.service.JWT.CustomUserDetailsService;
+import cafeSubscription.coffee.domain.user.service.JWT.JwtTokenFilter;
+import cafeSubscription.coffee.domain.user.service.JWT.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
-import org.springframework.security.web.util.matcher.AndRequestMatcher;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig {
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfig{
 
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomUserDetailsService userDetailsService;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,23 +37,36 @@ public class SecurityConfig {
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.disable())) // X-Frame-Options 비활성화
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/api/users/**","/h2-console/**","/login", "/oauth2/**").permitAll() // 공개 URL
+                        .requestMatchers("/api/user/**", "/h2-console/**", "/login", "/oauth2/**").permitAll() // 공개 URL
                         .requestMatchers("/admin").hasRole("ADMIN") // ADMIN 권한이 필요한 URL
                         .anyRequest().authenticated()) // 나머지 URL은 인증 필요
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService)))
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)); // 세션 정책 설정
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // 세션 정책 설정
+
+        http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }
-
-
-
+    @Bean
+    public JwtTokenFilter jwtTokenFilter() {
+        return new JwtTokenFilter(jwtTokenUtil, userDetailsService);
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
+        return authenticationManagerBuilder.build();
     }
 }
