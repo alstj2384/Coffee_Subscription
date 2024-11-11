@@ -49,7 +49,7 @@ spring:
       client:
         registration:
           google:
-            client-id:
+            client-id: 1054896415438-sk4clmkmkq0cqiqvghdhttmv1gulc8fe.apps.googleusercontent.com
             client-secret:
-            scope: email, profile
-
+            scope: email, profile, openid
+            redirect-uri: "http://localhost:8080/login/oauth2/code/google"

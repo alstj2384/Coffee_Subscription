@@ -48,7 +48,7 @@ public class RegisterController {
     }
 
 
-    @PostMapping("/register/oauth/nickname")
+    @PostMapping("/register/oauth/update")
     public ResponseEntity<User> updateOAuthUser(@AuthenticationPrincipal OAuth2User principal, @RequestBody OAuthRegisterDTO requestDto) {
         if (principal == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

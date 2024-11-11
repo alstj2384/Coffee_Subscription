@@ -33,10 +33,14 @@ public class OAuthRegisterService {
 
     @Transactional
     public User registerOAuthUser(OAuthRegisterDTO oauthRegisterDTO) {
+        log.info("신규 OAuth 사용자 저장 중...");
 
         // 새로운 사용자 저장
         User user = OAuthRegisterMapper.toOAuthEntity(oauthRegisterDTO);
-        return registerRepository.save(user);
+        User savedUser = registerRepository.save(user);
+
+        log.info("신규 OAuth 사용자 저장 성공: {}", savedUser);
+        return savedUser;
     }
 
     @Transactional

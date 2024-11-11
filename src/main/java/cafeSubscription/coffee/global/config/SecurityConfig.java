@@ -37,14 +37,19 @@ public class SecurityConfig{
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.disable())) // X-Frame-Options 비활성화
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/api/user/**", "/h2-console/**", "/login", "/oauth2/**").permitAll() // 공개 URL
+                        .requestMatchers("/api/user/**", "/h2-console/**", "/login", "/oauth2/**","/**").permitAll() // 공개 URL
                         .requestMatchers("/admin").hasRole("ADMIN") // ADMIN 권한이 필요한 URL
                         .anyRequest().authenticated()) // 나머지 URL은 인증 필요
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService)))
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // 세션 정책 설정
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // 세션 정책 설정
+                .logout(logout -> logout
+                                .logoutUrl("/logout") // 로그아웃 요청 경로 설정
+                                .logoutSuccessUrl("/login") // 로그아웃 후 리다이렉트 경로
+                                .invalidateHttpSession(true)
+                                .deleteCookies("JSESSIONID")); // 쿠키 삭제
 
         http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 

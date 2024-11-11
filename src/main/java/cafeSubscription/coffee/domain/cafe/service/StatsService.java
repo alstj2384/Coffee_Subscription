@@ -26,14 +26,14 @@ public class StatsService {
 
     public StatsDTO getSummary(Long cafeId, String ownerEmail) {
         Cafe cafe = validateCafeOwnership(cafeId, ownerEmail);
-        int dailyUsage = couponRepository.countDailyUsage(cafe.getCafeId(), LocalDate.now());
-        LocalDate today = LocalDate.now();
-        LocalDate weekStart = today.minusDays(today.getDayOfWeek().getValue() - 1);
-        int weeklyUsage = couponRepository.countUsageBetweenDates(cafe.getCafeId(), weekStart, today);
+       // int dailyUsage = couponRepository.countDailyUsage(cafe.getCafeId(), LocalDate.now());
+       // LocalDate today = LocalDate.now();
+       // LocalDate weekStart = today.minusDays(today.getDayOfWeek().getValue() - 1);
+       // int weeklyUsage = couponRepository.countUsageBetweenDates(cafe.getCafeId(), weekStart, today);
         int totalReviewCount = reviewRepository.countByCafe_CafeId(cafe.getCafeId());
         int totalDiaryCount = diaryRepository.countByCafe_CafeId(cafe.getCafeId());
 
-        return StatsMapper.toStatsDTO(dailyUsage, weeklyUsage, totalReviewCount, totalDiaryCount);
+        return StatsMapper.toStatsDTO(totalReviewCount, totalDiaryCount);
     }
 
     public int getPeriodCouponUsage(Long cafeId, String ownerEmail, LocalDate startDate, LocalDate endDate) {

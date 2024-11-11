@@ -17,8 +17,22 @@ public class JwtTokenUtil {
     @Value("${jwt.secret}")
     private String secret;
 
+    @Value("${jwt.access_token.expiration}")
+    private long accessTokenExpiration;
+
+    @Value("${jwt.refresh_token.expiration}")
+    private long refreshTokenExpiration;
+
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public String generateAccessToken(String username) {
+        return generateToken(username, accessTokenExpiration);
+    }
+
+    public String generateRefreshToken(String username) {
+        return generateToken(username, refreshTokenExpiration);
     }
 
     public String generateToken(String subject, long duration) {
@@ -46,5 +60,13 @@ public class JwtTokenUtil {
         } catch (Exception e) {
             return false;
         }
+    }
+    public Date getExpirationDateFromToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getExpiration();
     }
 }
