@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/stats")
@@ -22,7 +23,7 @@ public class StatsController {
 
     private final StatsService statsService;
 
-    @GetMapping("/summary") //쿠폰사용량(일일, 주간), 리뷰수, 일기수 조회
+    @GetMapping("/summary") //리뷰수, 일기수 조회
     public ResponseEntity<StatsDTO> getSummary(@RequestParam Long cafeId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String ownerEmail = authentication.getName();
@@ -39,7 +40,10 @@ public class StatsController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String ownerEmail = authentication.getName();
-        long periodUsage = statsService.getPeriodCouponUsage(cafeId, ownerEmail, startDate, endDate);
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+        LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
+
+        long periodUsage = statsService.getPeriodCouponUsage(cafeId, ownerEmail, startDateTime, endDateTime);
         return ResponseEntity.ok(periodUsage);
     }
 }

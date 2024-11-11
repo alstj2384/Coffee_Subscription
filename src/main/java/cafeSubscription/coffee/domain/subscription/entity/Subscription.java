@@ -1,5 +1,6 @@
 package cafeSubscription.coffee.domain.subscription.entity;
 
+import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.subscription.dto.SubscriptionType;
 import cafeSubscription.coffee.domain.user.entity.User;
 import jakarta.persistence.*;
@@ -62,5 +63,7 @@ public class Subscription {
         lastUsedDate = LocalDateTime.now();
     }
 
-
+    @ManyToOne
+    @JoinColumn(name = "cafe_id")
+    private Cafe cafe;
 }

@@ -5,10 +5,8 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class StatsMapper {
-    public StatsDTO toStatsDTO(int dailyCouponUsage, int weeklyCouponUsage, int totalReviewCount, int totalDiaryCount){
+    public StatsDTO toStatsDTO(int totalReviewCount, int totalDiaryCount){
         return StatsDTO.builder()
-                .dailyCouponUsage(dailyCouponUsage)
-                .weeklyCouponUsage(weeklyCouponUsage)
                 .totalReviewCount(totalReviewCount)
                 .totalDiaryCount(totalDiaryCount)
                 .build();
