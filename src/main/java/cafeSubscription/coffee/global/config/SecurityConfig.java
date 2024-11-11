@@ -5,6 +5,7 @@ import cafeSubscription.coffee.domain.user.service.JWT.CustomUserDetailsService;
 import cafeSubscription.coffee.domain.user.service.JWT.JwtTokenFilter;
 import cafeSubscription.coffee.domain.user.service.JWT.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class SecurityConfig{
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        log.info("SecurityConfig - CustomOAuth2UserService 빈 주입 완료: {}", customOAuth2UserService != null);
         http
                 .csrf(csrf -> csrf.disable())            // CSRF 비활성화
                 .formLogin(formLogin -> formLogin.disable()) // 폼 로그인 비활성화
@@ -37,12 +40,15 @@ public class SecurityConfig{
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.disable())) // X-Frame-Options 비활성화
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/api/user/**", "/h2-console/**", "/login", "/oauth2/**","/**").permitAll() // 공개 URL
+                        .requestMatchers("/api/user/**", "/h2-console/**", "/login", "/oauth2/**","/**","/login/oauth2/code/*").permitAll() // 공개 URL
                         .requestMatchers("/admin").hasRole("ADMIN") // ADMIN 권한이 필요한 URL
                         .anyRequest().authenticated()) // 나머지 URL은 인증 필요
                 .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .userService(customOAuth2UserService)))
+                       // .loginProcessingUrl("http://localhost:8080/login/oauth2/code/google")
+                        .userInfoEndpoint(userInfo -> {
+                            log.info("SecurityConfig: OAuth2 로그인 과정 - 사용자 정보 엔드포인트 요청됨");
+                            userInfo.userService(customOAuth2UserService);
+                        }))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // 세션 정책 설정
                 .logout(logout -> logout

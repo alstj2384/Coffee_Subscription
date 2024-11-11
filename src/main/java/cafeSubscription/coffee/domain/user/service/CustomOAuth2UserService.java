@@ -45,9 +45,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         User user;
         if (existingUser.isEmpty()) {
+            log.info("user정보 없음, 회원가입 시작");
             OAuthRegisterDTO oauthRegisterDTO = new OAuthRegisterDTO();
             oauthRegisterDTO.setEmail((String) oAuth2User.getAttributes().get("email"));
+            log.info("oAuth2User.getAttributes.get(\"email\") : {}", (String) oAuth2User.getAttributes().get("email"));
             oauthRegisterDTO.setName((String) oAuth2User.getAttributes().get("name"));
+            log.info("oAuth2User.getAttributes.get(\"name\") : {}", (String) oAuth2User.getAttributes().get("name"));
             oauthRegisterDTO.setOauthProviderId(oauthProviderId);
             user = oAuthRegisterService.registerOAuthUser(oauthRegisterDTO);
         } else {
@@ -57,6 +60,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         String accessToken = jwtTokenUtil.generateAccessToken(user.getUsername());
         String refreshToken = jwtTokenUtil.generateRefreshToken(user.getUsername());
+        log.info("CustomOAuth2UserService: JWT 토큰 생성 - Access Token: {}, Refresh Token: {}", accessToken, refreshToken);
 
         // OAuth2User에 토큰 포함
         Map<String, Object> attributes = oAuth2User.getAttributes();
@@ -66,7 +70,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(user.getRole().name())),
                 attributes,
-                "oauthProviderId"
+                "sub"
 
         );
     }

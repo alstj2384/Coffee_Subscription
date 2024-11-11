@@ -50,6 +50,12 @@ spring:
         registration:
           google:
             client-id: 1054896415438-sk4clmkmkq0cqiqvghdhttmv1gulc8fe.apps.googleusercontent.com
-            client-secret:
-            scope: email, profile, openid
-            redirect-uri: "http://localhost:8080/login/oauth2/code/google"
+            client-secret: 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
+            scope: openid, email, profile
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
