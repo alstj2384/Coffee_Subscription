@@ -1,6 +1,6 @@
 package cafeSubscription.coffee.domain.cafe.mapper;
 
-import cafeSubscription.coffee.domain.cafe.DTO.CafeDetailsDTO;
+import cafeSubscription.coffee.domain.cafe.dto.CafeDetailsDTO;
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.global.config.CustomException;
 import cafeSubscription.coffee.global.config.ErrorCode;

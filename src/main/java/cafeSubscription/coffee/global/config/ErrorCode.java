@@ -30,6 +30,9 @@ public enum ErrorCode {
     // 사용자 일치 불일치
     USER_MISMATCH("사용자가 일치하지 않습니다.", HttpStatus.FORBIDDEN),
 
+    //권한 없음
+    USER_UNAUTHORIZED("사용자가 권한이없음",HttpStatus.UNAUTHORIZED),
+
 
     /**
      * BUSINESS

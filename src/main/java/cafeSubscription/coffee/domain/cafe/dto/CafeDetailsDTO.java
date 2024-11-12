@@ -1,4 +1,4 @@
-package cafeSubscription.coffee.domain.cafe.DTO;
+package cafeSubscription.coffee.domain.cafe.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +12,6 @@ public class CafeDetailsDTO {
     private String cafeName;
     private String role;
     private Integer pin;
-    private ImageDTO image;
+    private cafeSubscription.coffee.domain.cafe.DTO.ImageDTO image;
 
 }
