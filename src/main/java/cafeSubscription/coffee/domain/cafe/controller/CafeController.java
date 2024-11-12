@@ -1,10 +1,10 @@
 package cafeSubscription.coffee.domain.cafe.controller;
 
-import cafeSubscription.coffee.domain.cafe.dto.AddCafeRequest;
-import cafeSubscription.coffee.domain.cafe.dto.request.SearchAttributes;
+import cafeSubscription.coffee.domain.cafe.DTO.AddCafeRequest;
+import cafeSubscription.coffee.domain.cafe.DTO.request.SearchAttributes;
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 
-import cafeSubscription.coffee.domain.cafe.dto.UpdateCafeRequest;
+import cafeSubscription.coffee.domain.cafe.DTO.UpdateCafeRequest;
 import cafeSubscription.coffee.domain.cafe.search.SearchType;
 import cafeSubscription.coffee.domain.cafe.service.CafeService;
 import cafeSubscription.coffee.domain.operatingHour.OperatingHour;

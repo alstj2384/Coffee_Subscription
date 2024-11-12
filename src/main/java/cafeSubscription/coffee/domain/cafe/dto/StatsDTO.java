@@ -1,4 +1,4 @@
-package cafeSubscription.coffee.domain.cafe.dto;
+package cafeSubscription.coffee.domain.cafe.DTO;
 
 import lombok.Builder;
 import lombok.Getter;
