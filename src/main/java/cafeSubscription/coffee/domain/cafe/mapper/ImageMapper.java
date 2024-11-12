@@ -1,6 +1,6 @@
 package cafeSubscription.coffee.domain.cafe.mapper;
 
-import cafeSubscription.coffee.domain.cafe.dto.ImageDTO;
+import cafeSubscription.coffee.domain.cafe.DTO.ImageDTO;
 import cafeSubscription.coffee.domain.image.entity.Image;
 
 public class ImageMapper {
