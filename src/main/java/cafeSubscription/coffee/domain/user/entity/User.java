@@ -26,7 +26,8 @@ public class User {
 
     @Column
     private String nickName;
-    @Column(nullable = true)
+
+    @Column(nullable = true, unique = true)
     private String username;//사용자 아이디
 
     @Column(nullable = true)
