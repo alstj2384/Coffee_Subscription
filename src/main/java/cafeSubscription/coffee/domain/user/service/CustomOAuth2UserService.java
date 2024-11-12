@@ -2,6 +2,7 @@ package cafeSubscription.coffee.domain.user.service;
 
 import cafeSubscription.coffee.domain.user.dto.OAuthRegisterDTO;
 import cafeSubscription.coffee.domain.user.entity.User;
+import cafeSubscription.coffee.domain.user.service.JWT.JwtTokenUtil;
 import cafeSubscription.coffee.domain.user.service.OAuthRegisterService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -20,51 +21,58 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
+
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
+    private final OAuthRegisterService oAuthRegisterService;
+    private final JwtTokenUtil jwtTokenUtil;
 
-        private final OAuthRegisterService oAuthRegisterService;
 
-        @Autowired
-        public CustomOAuth2UserService(OAuthRegisterService oAuthRegisterService) {
-            this.oAuthRegisterService = oAuthRegisterService;
-        }
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        log.info("loadUser 메소드 호출됨: {}", userRequest);
+        OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        @Override
-        public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-            log.info("loadUser 메소드 호출됨: {}", userRequest);
-            OAuth2User oAuth2User = super.loadUser(userRequest);
+        // OAuth Provider에서 사용자 고유 ID 추출
+        String oauthProviderId = (String) oAuth2User.getAttributes().get("sub");
 
-            // OAuth2 제공자 확인
-            String registrationId = userRequest.getClientRegistration().getRegistrationId();
-            Map<String, Object> attributes = oAuth2User.getAttributes();
+        // DB에서 사용자가 존재하는지 확인
+        Optional<User> existingUser = oAuthRegisterService.findUserByOauthProviderId(oauthProviderId);
 
-            // 사용자 정보 가져오기
-            String email = (String) attributes.get("email");
-            String name = (String) attributes.get("name");
-            String oauthProviderId = (String) attributes.get("sub"); // Google에서 제공하는 고유 ID
-
-            log.info("OAuth User Info - email: {}, name: {}, oauthProviderId: {}", email, name, oauthProviderId);
-
-            // DTO 생성 및 사용자 정보 데이터베이스에 저장 (세션 사용 대신)
+        User user;
+        if (existingUser.isEmpty()) {
+            log.info("user정보 없음, 회원가입 시작");
             OAuthRegisterDTO oauthRegisterDTO = new OAuthRegisterDTO();
-            oauthRegisterDTO.setEmail(email);
-            oauthRegisterDTO.setName(name);
+            oauthRegisterDTO.setEmail((String) oAuth2User.getAttributes().get("email"));
+            log.info("oAuth2User.getAttributes.get(\"email\") : {}", (String) oAuth2User.getAttributes().get("email"));
+            oauthRegisterDTO.setName((String) oAuth2User.getAttributes().get("name"));
+            log.info("oAuth2User.getAttributes.get(\"name\") : {}", (String) oAuth2User.getAttributes().get("name"));
             oauthRegisterDTO.setOauthProviderId(oauthProviderId);
-
-            // OAuth 사용자 정보 데이터베이스에 저장
-            User user = oAuthRegisterService.registerOAuthUser(oauthRegisterDTO);
-
-            // 사용자 정보 매핑
-            attributes.put("email", email);
-            attributes.put("name", name);
-            attributes.put("oauthProviderId", oauthProviderId);
-
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
-
-            return new DefaultOAuth2User(Collections.singleton(authority), attributes, "email");
+            user = oAuthRegisterService.registerOAuthUser(oauthRegisterDTO);
+        } else {
+            // 기존 사용자가 있을 경우
+            user = existingUser.get();
         }
+
+        String accessToken = jwtTokenUtil.generateAccessToken(user.getUsername());
+        String refreshToken = jwtTokenUtil.generateRefreshToken(user.getUsername());
+        log.info("CustomOAuth2UserService: JWT 토큰 생성 - Access Token: {}, Refresh Token: {}", accessToken, refreshToken);
+
+        // OAuth2User에 토큰 포함
+        Map<String, Object> attributes = oAuth2User.getAttributes();
+        attributes.put("accessToken", accessToken);
+        attributes.put("refreshToken", refreshToken);
+
+        return new DefaultOAuth2User(
+                Collections.singleton(new SimpleGrantedAuthority(user.getRole().name())),
+                attributes,
+                "sub"
+
+        );
     }
+}
 
