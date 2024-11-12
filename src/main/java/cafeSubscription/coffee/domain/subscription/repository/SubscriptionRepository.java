@@ -17,6 +17,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
     Optional<List<Subscription>> findAllByUserUserIdOrderByStartDateDesc(Long userId);
 
 
+
     @Query("SELECT COUNT(s) FROM Subscription s " +
             "JOIN s.user u " +
             "JOIN u.cafe c " +

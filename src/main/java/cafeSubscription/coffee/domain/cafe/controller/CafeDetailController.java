@@ -1,7 +1,7 @@
 package cafeSubscription.coffee.domain.cafe.controller;
 
 
-import cafeSubscription.coffee.domain.cafe.dto.CafeDetailsDTO;
+import cafeSubscription.coffee.domain.cafe.DTO.CafeDetailsDTO;
 import cafeSubscription.coffee.domain.cafe.service.CafeDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

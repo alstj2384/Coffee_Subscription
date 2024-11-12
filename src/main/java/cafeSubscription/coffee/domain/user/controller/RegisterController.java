@@ -3,14 +3,18 @@ package cafeSubscription.coffee.domain.user.controller;
 import cafeSubscription.coffee.domain.user.dto.OAuthRegisterDTO;
 import cafeSubscription.coffee.domain.user.dto.RegisterDTO;
 import cafeSubscription.coffee.domain.user.entity.User;
+import cafeSubscription.coffee.domain.user.service.JWT.JwtService;
 import cafeSubscription.coffee.domain.user.service.OAuthRegisterService;
 import cafeSubscription.coffee.domain.user.service.RegisterService;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -19,39 +23,40 @@ public class RegisterController {
 
     private final RegisterService registerService;
     private final OAuthRegisterService oAuthRegisterService;
+    private final JwtService jwtService;
 
-    @Autowired
-    private HttpSession httpSession;
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterDTO registerDTO) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody RegisterDTO registerDTO) {
         User user = registerService.register(registerDTO);
-        return ResponseEntity.ok(user);
+
+        //회원가입 후 액세스 토큰 발급
+        String accessToken = jwtService.generateAccessToken(user.getUsername());
+        String refreshToken = jwtService.generateRefreshToken(user.getUsername());
+
+        // 토큰을 헤더에 포함
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+        headers.set("Authorization-refresh", refreshToken);
+
+        // 토큰을 응답 본문에도 포함
+        Map<String, String> tokens = Map.of("accessToken", accessToken, "refreshToken", refreshToken);
+
+
+        // 토큰 반환
+        return new ResponseEntity<>(tokens, headers, HttpStatus.OK);
     }
 
 
-    @PostMapping("/register/google/oauth")
-    public ResponseEntity<User> registerOAuth(@RequestBody OAuthRegisterDTO requestDto, HttpSession session ){
-        // 세션에서 OAuth 사용자 정보 가져오기
-        OAuthRegisterDTO oauthRegisterDTO = (OAuthRegisterDTO) session.getAttribute("oauthUser");
-
-        if (oauthRegisterDTO == null) {
-            throw new IllegalStateException("OAuth 정보가 세션에 존재하지 않습니다. 로그인을 다시 시도하세요.");
+    @PostMapping("/register/oauth/update")
+    public ResponseEntity<User> updateOAuthUser(@AuthenticationPrincipal OAuth2User principal, @RequestBody OAuthRegisterDTO requestDto) {
+        if (principal == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        // 세션에서 가져온 값과 바디에서 받은 값을 병합
-        oauthRegisterDTO.setNickName(requestDto.getNickName()); // 닉네임 설정
-        oauthRegisterDTO.setBusinessNumber(requestDto.getBusinessNumber()); // 비즈니스 정보 설정
-        oauthRegisterDTO.setBName(requestDto.getBName());
-        oauthRegisterDTO.setBankAccount(requestDto.getBankAccount());
-        oauthRegisterDTO.setOpeningDate(requestDto.getOpeningDate());
-
-        // 병합된 DTO를 이용해 데이터베이스에 사용자 저장
-        User savedUser = oAuthRegisterService.registerOAuthUser(oauthRegisterDTO);
-
-        // ResponseEntity로 사용자 정보와 상태 코드 반환
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        String oauthProviderId = principal.getAttribute("sub");
+        User updatedUser = oAuthRegisterService.updateOAuthUserByProviderId(oauthProviderId, requestDto.getNickName(), requestDto.getBusinessNumber() != null, requestDto);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
-
 
 }

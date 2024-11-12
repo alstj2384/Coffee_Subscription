@@ -1,4 +1,4 @@
-package cafeSubscription.coffee.domain.cafe.dto;
+package cafeSubscription.coffee.domain.cafe.DTO;
 
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.operatingHour.OperatingHour;

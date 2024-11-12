@@ -1,6 +1,6 @@
 package cafeSubscription.coffee.domain.cafe.service;
 
-import cafeSubscription.coffee.domain.cafe.dto.StatsDTO;
+import cafeSubscription.coffee.domain.cafe.DTO.StatsDTO;
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.cafe.mapper.StatsMapper;
 import cafeSubscription.coffee.domain.cafe.repository.CafeRepository;

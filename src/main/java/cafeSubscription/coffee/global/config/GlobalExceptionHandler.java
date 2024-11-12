@@ -12,5 +12,7 @@ public class GlobalExceptionHandler {
         ErrorCode errorCode = ex.getErrorCode();// 에러코드 가져옴
         ErrorResponse errorResponse = new ErrorResponse(errorCode.getMsg(), errorCode.getStatus().value());
         return new ResponseEntity<>(errorResponse, errorCode.getStatus());
+
+        //todo illlecpxtipn 추가
     }
 }

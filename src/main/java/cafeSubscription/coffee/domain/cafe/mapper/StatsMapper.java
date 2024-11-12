@@ -1,6 +1,6 @@
 package cafeSubscription.coffee.domain.cafe.mapper;
 
-import cafeSubscription.coffee.domain.cafe.dto.StatsDTO;
+import cafeSubscription.coffee.domain.cafe.DTO.StatsDTO;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
