@@ -17,4 +17,11 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
     Optional<List<Subscription>> findAllByUserUserIdOrderByStartDateDesc(Long userId);
 
 
+
+    @Query("SELECT COUNT(s) FROM Subscription s " +
+            "JOIN s.user u " +
+            "JOIN u.cafe c " +
+            "WHERE c.cafeId = :cafeId " +
+            "AND s.lastUsedDate BETWEEN :startDate AND :endDate")
+    int countUsageBetweenDates(@Param("cafeId") Long cafeId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 }

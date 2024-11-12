@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/stats")
@@ -39,7 +40,10 @@ public class StatsController {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String ownerEmail = authentication.getName();
-        long periodUsage = statsService.getPeriodCouponUsage(cafeId, ownerEmail, startDate, endDate);
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+        LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
+
+        long periodUsage = statsService.getPeriodCouponUsage(cafeId, ownerEmail, startDateTime, endDateTime);
         return ResponseEntity.ok(periodUsage);
     }
 }

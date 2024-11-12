@@ -1,6 +1,7 @@
 package cafeSubscription.coffee.domain.user.entity;
 
 
+import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.subscription.entity.Subscription;
 import cafeSubscription.coffee.domain.user.UserRole;
 import jakarta.persistence.*;
@@ -41,6 +42,10 @@ public class User {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subscription_id")
     private Subscription subscription;
+
+    @ManyToOne
+    @JoinColumn(name = "cafe_id")
+    private Cafe cafe;
 
 //    @Column(nullable = true)
 //    private String oauthProvider; //ouath가 구글, 카카오인지 구별 (추후 추가시 필요로 보류)

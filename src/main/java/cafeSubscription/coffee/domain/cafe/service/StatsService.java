@@ -7,12 +7,14 @@ import cafeSubscription.coffee.domain.cafe.repository.CafeRepository;
 import cafeSubscription.coffee.domain.coupon.repository.CouponRepository;
 import cafeSubscription.coffee.domain.diary.repositoty.DiaryRepository;
 import cafeSubscription.coffee.domain.review.repository.ReviewRepository;
+import cafeSubscription.coffee.domain.subscription.repository.SubscriptionRepository;
 import cafeSubscription.coffee.global.config.CustomException;
 import cafeSubscription.coffee.global.config.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -23,22 +25,24 @@ public class StatsService {
     private final CouponRepository couponRepository;
     private final ReviewRepository reviewRepository;
     private final DiaryRepository diaryRepository;
+    private final SubscriptionRepository subscriptionRepository;
 
     public StatsDTO getSummary(Long cafeId, String ownerEmail) {
         Cafe cafe = validateCafeOwnership(cafeId, ownerEmail);
-       // int dailyUsage = couponRepository.countDailyUsage(cafe.getCafeId(), LocalDate.now());
-       // LocalDate today = LocalDate.now();
-       // LocalDate weekStart = today.minusDays(today.getDayOfWeek().getValue() - 1);
-       // int weeklyUsage = couponRepository.countUsageBetweenDates(cafe.getCafeId(), weekStart, today);
+
         int totalReviewCount = reviewRepository.countByCafe_CafeId(cafe.getCafeId());
         int totalDiaryCount = diaryRepository.countByCafe_CafeId(cafe.getCafeId());
 
         return StatsMapper.toStatsDTO(totalReviewCount, totalDiaryCount);
     }
 
-    public int getPeriodCouponUsage(Long cafeId, String ownerEmail, LocalDate startDate, LocalDate endDate) {
+
+    public int getPeriodCouponUsage(Long cafeId, String ownerEmail, LocalDateTime startDate, LocalDateTime endDate) {
+        // 카페 소유권 검증
         Cafe cafe = validateCafeOwnership(cafeId, ownerEmail);
-        return couponRepository.countUsageBetweenDates(cafeId, startDate, endDate);
+
+        // 해당 기간의 쿠폰 사용량 집계
+        return subscriptionRepository.countUsageBetweenDates(cafeId, startDate, endDate);
     }
 
     private Cafe validateCafeOwnership(Long cafeId, String ownerEmail) {
@@ -52,4 +56,6 @@ public class StatsService {
         }
         return cafe;
     }
+
+
 }
