@@ -1,4 +1,4 @@
-package cafeSubscription.coffee.domain.cafe.DTO.request;
+package cafeSubscription.coffee.domain.cafe.dto.request;
 
 import lombok.Data;
 

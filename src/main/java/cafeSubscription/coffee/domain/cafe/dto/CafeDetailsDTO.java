@@ -12,6 +12,6 @@ public class CafeDetailsDTO {
     private String cafeName;
     private String role;
     private Integer pin;
-    private cafeSubscription.coffee.domain.cafe.DTO.ImageDTO image;
+    private cafeSubscription.coffee.domain.cafe.dto.ImageDTO image;
 
 }

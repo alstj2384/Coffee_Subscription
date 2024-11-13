@@ -1,5 +1,6 @@
 package cafeSubscription.coffee.domain.user.service.JWT;
 
+import cafeSubscription.coffee.domain.user.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

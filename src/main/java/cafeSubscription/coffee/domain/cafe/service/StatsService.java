@@ -1,6 +1,6 @@
 package cafeSubscription.coffee.domain.cafe.service;
 
-import cafeSubscription.coffee.domain.cafe.DTO.StatsDTO;
+import cafeSubscription.coffee.domain.cafe.dto.StatsDTO;
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.cafe.mapper.StatsMapper;
 import cafeSubscription.coffee.domain.cafe.repository.CafeRepository;
@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 

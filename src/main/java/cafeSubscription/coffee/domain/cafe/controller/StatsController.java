@@ -1,7 +1,7 @@
 package cafeSubscription.coffee.domain.cafe.controller;
 
 
-import cafeSubscription.coffee.domain.cafe.DTO.StatsDTO;
+import cafeSubscription.coffee.domain.cafe.dto.StatsDTO;
 import cafeSubscription.coffee.domain.cafe.service.StatsService;
 import cafeSubscription.coffee.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;

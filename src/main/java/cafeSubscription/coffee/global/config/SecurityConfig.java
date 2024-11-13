@@ -1,7 +1,7 @@
 package cafeSubscription.coffee.global.config;
 
 import cafeSubscription.coffee.domain.user.service.CustomOAuth2UserService;
-import cafeSubscription.coffee.domain.user.service.JWT.CustomUserDetailsService;
+import cafeSubscription.coffee.domain.user.service.CustomUserDetailsService;
 import cafeSubscription.coffee.domain.user.service.JWT.JwtTokenFilter;
 import cafeSubscription.coffee.domain.user.service.JWT.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
