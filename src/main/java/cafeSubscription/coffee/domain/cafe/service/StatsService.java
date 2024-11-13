@@ -11,6 +11,7 @@ import cafeSubscription.coffee.domain.subscription.repository.SubscriptionReposi
 import cafeSubscription.coffee.global.config.CustomException;
 import cafeSubscription.coffee.global.config.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,6 +28,7 @@ public class StatsService {
     private final DiaryRepository diaryRepository;
     private final SubscriptionRepository subscriptionRepository;
 
+    @PreAuthorize("hasRole('owner')")
     public StatsDTO getSummary(Long cafeId, String ownerEmail) {
         Cafe cafe = validateCafeOwnership(cafeId, ownerEmail);
 
@@ -36,7 +38,7 @@ public class StatsService {
         return StatsMapper.toStatsDTO(totalReviewCount, totalDiaryCount);
     }
 
-
+    @PreAuthorize("hasRole('owner')")
     public int getPeriodCouponUsage(Long cafeId, String ownerEmail, LocalDateTime startDate, LocalDateTime endDate) {
         // 카페 소유권 검증
         Cafe cafe = validateCafeOwnership(cafeId, ownerEmail);
