@@ -23,10 +23,8 @@ public class LoginController {
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginDTO loginDTO) {
         Map<String, String> tokens = jwtService.login(loginDTO);
 
-        // 토큰을 헤더에 포함
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + tokens.get("accessToken"));
-        headers.set("Authorization-refresh", tokens.get("refreshToken"));
+        headers.set(HttpHeaders.AUTHORIZATION, tokens.get("accessToken"));
 
         return new ResponseEntity<>(tokens, headers, HttpStatus.OK);
     }
