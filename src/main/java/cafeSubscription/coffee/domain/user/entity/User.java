@@ -24,15 +24,16 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String nickName;
-    @Column(nullable = true)
-    private String username;
+
+    @Column(nullable = true, unique = true)
+    private String username;//사용자 아이디
 
     @Column(nullable = true)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private UserRole role;
 
     @Column(nullable = true, unique = true)
