@@ -20,7 +20,7 @@ public class AddReviewRequest {
     private String rContent; // 리뷰 내용
 //    private Enum<Keyword> keyword;
     @JsonProperty("rImage")
-    private String rImage;
+    private List<String> rImage;
 
     public Review toEntity() {
         return Review.builder()

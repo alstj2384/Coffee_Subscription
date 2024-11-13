@@ -13,7 +13,7 @@ public class ReviewResponse {
     private final Long reviewId;
     private final User user;
 //    private final Keyword keyword;
-    private final String rImage;
+    private final List<String> rImage;
     private final LocalDateTime createdAt;
     private final String rContent;
 
