@@ -55,7 +55,8 @@ public class JwtService {
     }
 
     public String generateAccessToken(String username) {
-        return generateToken(username, accessTokenExpiration);
+        String token = generateToken(username, accessTokenExpiration);
+        return "Bearer " + token; // Bearer 접두어 추가
     }
 
     public String generateRefreshToken(String username) {
