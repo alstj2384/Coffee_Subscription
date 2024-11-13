@@ -20,7 +20,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/add")
-    public ResponseEntity<Map<String, Object>> addReview(AddReviewRequest addReviewRequest) {
+    public ResponseEntity<Map<String, Object>> addReview(@RequestBody AddReviewRequest addReviewRequest) {
         return createResponseEntity(reviewService.save(addReviewRequest), "리뷰 작성에 성공했습니다.", HttpStatus.CREATED);
     }
 

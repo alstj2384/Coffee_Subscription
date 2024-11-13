@@ -25,7 +25,7 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + reviewId)); // 예외처리
 
-        review.update(request.getRContent(), (Keyword) request.getKeyword(), request.getRImage());
+        review.update(request.getRContent(), request.getRImage());
 
         return reviewRepository.save(review);
     }
