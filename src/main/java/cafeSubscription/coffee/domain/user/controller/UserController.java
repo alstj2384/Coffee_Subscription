@@ -7,6 +7,7 @@ import cafeSubscription.coffee.global.config.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +20,7 @@ public class UserController {
 
     //일반 사용자 닉네임변경
     @PatchMapping("/{userId}/nickname")
-    public ResponseEntity<String> updateNickName(@PathVariable long userId, @RequestBody String nickname) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String authenticatedEmail = authentication.getName();
+    public ResponseEntity<String> updateNickName(@PathVariable long userId, @RequestBody String nickname, @AuthenticationPrincipal User authenticatedUser) {
 
 
         // UserService를 통해 userId에 해당하는 사용자 가져오기
@@ -32,7 +30,7 @@ public class UserController {
         }
 
         // 현재 인증된 사용자가 요청한 userId와 동일한지 검증
-        if (!user.getEmail().equals(authenticatedEmail)) {
+        if (!user.getUserId().equals(authenticatedUser.getUserId())) {
             throw new CustomException(ErrorCode.USER_MISMATCH);
         }
 
