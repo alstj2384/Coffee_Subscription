@@ -4,6 +4,7 @@ import cafeSubscription.coffee.domain.review.DTO.AddReviewRequest;
 import cafeSubscription.coffee.domain.review.DTO.ReviewResponse;
 import cafeSubscription.coffee.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/add")
-    public ResponseEntity<Map<String, Object>> addReview(AddReviewRequest addReviewRequest) {
+    public ResponseEntity<Map<String, Object>> addReview(@RequestBody AddReviewRequest addReviewRequest) {
         return createResponseEntity(reviewService.save(addReviewRequest), "리뷰 작성에 성공했습니다.", HttpStatus.CREATED);
     }
 

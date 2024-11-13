@@ -34,11 +34,11 @@ public class Review {
     @Column(nullable = false)
     private String rContent;
 
-    @Convert(converter = KeywordConverter.class)
-    private Keyword keyword;
+//    @Convert(converter = KeywordConverter.class)
+//    private Keyword keyword;
 
-    @ElementCollection
-    private List<String> rImage;
+    @Column(nullable = false)
+    private String rImage;
 
     @CreationTimestamp
     @Column(nullable = false)
@@ -47,9 +47,9 @@ public class Review {
     @Column(nullable = false)
     private Integer reportCount;
 
-    public void update(String rContent, Keyword keyword, List<String> rImage) {
+    public void update(String rContent, String rImage) {
         this.rContent = rContent;
-        this.keyword = keyword;
+//        this.keyword = keyword;
         this.rImage = rImage;
     }
 }
