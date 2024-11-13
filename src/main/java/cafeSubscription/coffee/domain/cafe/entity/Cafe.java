@@ -1,5 +1,6 @@
 package cafeSubscription.coffee.domain.cafe.entity;
 
+import cafeSubscription.coffee.domain.diary.entity.Diary;
 import cafeSubscription.coffee.domain.image.entity.Image;
 import cafeSubscription.coffee.domain.operatingHour.OperatingHour;
 import cafeSubscription.coffee.domain.review.entity.Review;
@@ -42,8 +43,11 @@ public class Cafe {
     @Column(nullable = false)
     private String location;
 
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.REMOVE)
+    private List<Diary> diaries;
+
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "business_id", nullable = false)
+    @JoinColumn(name = "business_id", nullable = true)
     private Business business;
 
     @OneToOne(cascade = CascadeType.PERSIST) // 카페 저장 시 운영시간도 저장하도록 설정
@@ -51,7 +55,7 @@ public class Cafe {
     private OperatingHour operatingHour;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id", nullable = false)
+    @JoinColumn(name = "image_id", nullable = true)
     private Image image;
 
     @Builder

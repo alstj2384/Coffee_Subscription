@@ -1,16 +1,15 @@
 package cafeSubscription.coffee.domain.diary.entity;
 
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
+import cafeSubscription.coffee.domain.diary.DTO.UpdateDiaryRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -35,27 +34,21 @@ public class Diary {
     private String diaryContent;
 
     @Column
-    private Integer view; //아직 구현 안함
+    private Integer view; // TODO - 조회수 기능
 
     @CreationTimestamp
-    private LocalDateTime entryDate;
-
-    @LastModifiedDate
-    private LocalDateTime updatedAt; // 수정날짜(추가해도 되는지 모르겠슴다)
+    private LocalDateTime entryDate; // 수정날짜 없앰
 
     @ElementCollection
-    private List<String> thumbnail; // 임시 이미지 정보
-
-    @Builder
-    public Diary(String title, String diaryContent, List<String> thumbnail) {
-        this.title = title;
-        this.diaryContent = diaryContent;
-        this.thumbnail = thumbnail != null ? new ArrayList<>(thumbnail) : new ArrayList<>();
-    }
+    private List<String> thumbnail; // 임시 이미지 정보 TODO - 사진 추가
 
     public void update(String title, String diaryContent) {
         this.title = title;
         this.diaryContent = diaryContent;
-        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void update2(UpdateDiaryRequest request){
+        if(request.getTitle() != null) this.title = request.getTitle();
+        if(request.getDiaryContent() != null) this.diaryContent = request.getDiaryContent();
     }
 }
