@@ -1,0 +1,9 @@
+jwt:
+  secret: da09ac933ced1a33da68eddc36858dcb7d2c476934f4befd767849235cf2571d3fa4008c2e7ca9464089ee186d923d2185d69ebe99e9cdc87c44bd3b7c691e10
+  access_token:
+    expiration: 1800000  # 30분
+    header: Authorization
+
+  refresh_token:
+    expiration: 604800000  # 7일
+    header: Authorization-refresh
