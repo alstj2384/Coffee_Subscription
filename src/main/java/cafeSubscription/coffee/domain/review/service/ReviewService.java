@@ -2,13 +2,13 @@ package cafeSubscription.coffee.domain.review.service;
 
 import cafeSubscription.coffee.domain.review.DTO.AddReviewRequest;
 import cafeSubscription.coffee.domain.review.entity.Review;
-import cafeSubscription.coffee.domain.review.custom.Keyword;
 import cafeSubscription.coffee.domain.review.repository.ReviewRepository;
+import cafeSubscription.coffee.global.config.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,31 +16,37 @@ import java.util.List;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
 
-    @PreAuthorize("hasRole('CUSTOMER')")
     @Transactional
     public Review save(AddReviewRequest addReviewRequest) {
-        return reviewRepository.save(addReviewRequest.toEntity());
+        return reviewRepository.save(Review.builder()
+                        .rContent(addReviewRequest.getRContent())
+                        .rImage(addReviewRequest.getRImage())
+                        .createdAt(LocalDateTime.now())
+                        .reportCount(0)
+                        .build()
+        );
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
     @Transactional
     public Review update(Long reviewId, AddReviewRequest request) {
         Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new IllegalArgumentException("not found: " + reviewId)); // 예외처리
+                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.REVIEW_NOT_FOUND.getMsg()));
+
+        if(request.getRImage() == null || request.getRContent() == null) {
+            throw new IllegalArgumentException(ErrorCode.REVIEW_UPDATE_FAILED.getMsg());
+        }
 
         review.update(request.getRContent(), request.getRImage());
 
         return reviewRepository.save(review);
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
     @Transactional
     public void delete(Long reviewId) {
         reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new IllegalArgumentException("not found: " + reviewId));
+                .orElseThrow(() -> new IllegalArgumentException(ErrorCode.REVIEW_DELETION_FAILED.getMsg()));
     }
 
-    @PreAuthorize("hasRole('CUSTOMER')")
     public List<Review> findAll() {
         return reviewRepository.findAll();
     }
