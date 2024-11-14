@@ -9,6 +9,8 @@ import cafeSubscription.coffee.domain.cafe.search.SearchType;
 import cafeSubscription.coffee.domain.cafe.service.CafeService;
 import cafeSubscription.coffee.domain.operatingHour.OperatingHour;
 import cafeSubscription.coffee.domain.operatingHour.service.OperatingHourService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "카페 CRUD", description="카페 등록, 생성, 삭제, 조회, 수정, 리스트 조회 api")
 @RestController
 @RequestMapping("/api/cafe")
 @RequiredArgsConstructor
@@ -32,6 +35,7 @@ public class CafeController {
     private final CafeService cafeService;
     private final OperatingHourService operatingHourService; // OperatingHourService 추가
 
+    @Operation(summary = "카페등록 API", description = "사장님이 카페 등록시 사용")
     @PostMapping("/add") // 카페 등록
     public ResponseEntity<Map<String, Object>> addCafe(@RequestBody AddCafeRequest request) {
         // AddCafeRequest에서 받은 OperatingHour 객체를 먼저 저장
@@ -43,6 +47,7 @@ public class CafeController {
         return createResponseEntity(data, "카페 등록에 성공하였습니다.", HttpStatus.CREATED);
     }
 
+    @Operation(summary = "카페단건 조회 API", description = "카페 단건 조회시 사용됨")
     @GetMapping("/{cafeId}") // 카페 단건 조회
     public ResponseEntity<Map<String, Object>> getCafe(@PathVariable long cafeId) {
 
@@ -57,6 +62,7 @@ public class CafeController {
         return createResponseEntity(data, "카페 조회에 성공하였습니다.", HttpStatus.OK);
     }
 
+    @Operation(summary = "카페목록 조회 API", description = "여러 카페 리스트 조회시 사용")
     @GetMapping("/list") // 카페 목록 조회
     public ResponseEntity<Map<String, Object>> listCafes() {
         List<Cafe> cafes = cafeService.findAll();
@@ -68,12 +74,14 @@ public class CafeController {
         return createResponseEntity(cafeList, "카페 조회에 성공하였습니다.", HttpStatus.OK);
     }
 
+    @Operation(summary = "특정 카페 삭제 API", description = "사장님이 자신 카페 삭제시 사용")
     @DeleteMapping("/{cafeId}") // 카페 삭제
     public ResponseEntity<Map<String, Object>> deleteCafe(@PathVariable long cafeId) {
         cafeService.delete(cafeId);
         return createResponseEntity(null, "카페 삭제에 성공하였습니다.", HttpStatus.OK);
     }
 
+    @Operation(summary = "카페데이터 수정 API", description = "카페데이터 수정이 사항시 사용")
     @PutMapping("/{cafeId}") // 카페 수정
     public ResponseEntity<Map<String, Object>> updateCafe(@PathVariable long cafeId,
                                                           @RequestBody UpdateCafeRequest request) {
