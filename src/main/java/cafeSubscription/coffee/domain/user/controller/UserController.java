@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,19 +26,21 @@ public class UserController {
 
     @Operation(summary = "사용자 닉네임 변경 API")
     @PatchMapping("/{userId}/nickname")
-    public ResponseEntity<String> updateNickName(@PathVariable long userId, @RequestBody String nickname) {
+    public ResponseEntity<String> updateNickName(@PathVariable long userId, @RequestBody String nickname, @AuthenticationPrincipal User authenticatedUser)  {
 
 
 
         log.info(String.valueOf(userId));
         // UserService를 통해 userId에 해당하는 사용자 가져오기
         User user = userService.findById(userId);
-        log.info(String.valueOf(user.getUserId()));
         if (user == null) {
-            log.info(String.valueOf(user.getUserId()));
             throw new CustomException(ErrorCode.NON_EXISTENT_USER);
         }
 
+        // 현재 인증된 사용자가 요청한 userId와 동일한지 검증
+        if (!user.getUserId().equals(authenticatedUser.getUserId())) {
+            throw new CustomException(ErrorCode.USER_MISMATCH);
+        }
 
         User updatedUser = userService.updateNickname(userId, nickname);
 
