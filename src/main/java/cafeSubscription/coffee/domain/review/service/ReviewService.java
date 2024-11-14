@@ -6,6 +6,7 @@ import cafeSubscription.coffee.domain.review.custom.Keyword;
 import cafeSubscription.coffee.domain.review.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +16,13 @@ import java.util.List;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @Transactional
     public Review save(AddReviewRequest addReviewRequest) {
         return reviewRepository.save(addReviewRequest.toEntity());
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @Transactional
     public Review update(Long reviewId, AddReviewRequest request) {
         Review review = reviewRepository.findById(reviewId)
@@ -30,12 +33,14 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @Transactional
     public void delete(Long reviewId) {
         reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + reviewId));
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     public List<Review> findAll() {
         return reviewRepository.findAll();
     }
