@@ -1,6 +1,7 @@
 package cafeSubscription.coffee.domain.cafe.controller;
 
 import cafeSubscription.coffee.domain.cafe.dto.AddCafeRequest;
+import cafeSubscription.coffee.domain.cafe.dto.CafeResponseDto;
 import cafeSubscription.coffee.domain.cafe.dto.request.SearchAttributes;
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 
@@ -114,13 +115,27 @@ public class CafeController {
         return data;
     }
 
-    @PostMapping("/list")
-    public ResponseEntity<Page<Cafe>> getCafeList(@RequestParam(value = "type") SearchType searchType, @RequestBody SearchAttributes searchAttributes) {
-        log.info("[GetCafeList] Requested..");
+    @PostMapping("/sortedList")
+    public ResponseEntity<Page<CafeResponseDto>> getCafeList(@RequestParam(value = "type") SearchType searchType, @RequestBody SearchAttributes searchAttributes) {
+        log.info("[GetCafeList] 카페 목록 조회..");
 
         Page<Cafe> list = cafeService.getCafeList(searchType, searchAttributes);
 
-        log.info("[GetCafeList] OK!");
-        return ResponseEntity.ok().body(list);
+        Page<CafeResponseDto> dtoList = list.map(CafeResponseDto::toDto);
+
+        log.info("[GetCafeList] 카페 목록 조회 완료!");
+        return ResponseEntity.ok().body(dtoList);
     }
+
+    @GetMapping("/best")
+    public ResponseEntity<CafeResponseDto> getBestCafe(@RequestParam(value = "type") SearchType searchType, @RequestBody SearchAttributes searchAttributes) {
+        log.info("[GetBestCafe] 카페 조회..");
+
+        Page<Cafe> list = cafeService.getCafeList(searchType, searchAttributes);
+
+        CafeResponseDto dto = CafeResponseDto.toDto(list.getContent().get(0));
+        log.info("[GetBestCafe] 카페 조회 완료!");
+        return ResponseEntity.ok().body(dto);
+    }
+
 }
