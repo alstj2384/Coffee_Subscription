@@ -6,6 +6,8 @@ import cafeSubscription.coffee.domain.menu.entity.Menu;
 import cafeSubscription.coffee.domain.menu.repository.MenuRepository;
 import cafeSubscription.coffee.domain.menu.dto.request.MenuCreateDto;
 import cafeSubscription.coffee.domain.menu.dto.request.MenuUpdateDto;
+import cafeSubscription.coffee.domain.user.entity.User;
+import cafeSubscription.coffee.domain.user.repository.UserRepository;
 import cafeSubscription.coffee.global.config.ErrorCode;
 import cafeSubscription.coffee.global.file.FileStore;
 import lombok.RequiredArgsConstructor;
@@ -22,21 +24,32 @@ import java.util.List;
 public class MenuService {
     private final CafeRepository cafeRepository;
     private final MenuRepository menuRepository;
+    private final UserRepository userRepository;
     private final FileStore fileStore;
 
 
 
     @Transactional
     // Menu Entity를 생성하는 메서드
-    public Menu create(Long cafeId, MenuCreateDto dto) throws IOException {
-        // TODO - 검증
-        //  1. user와 cafeId 유효성 검사(null?)
-        //  2. user의 businessId와, cafe의 businessId가 일치하는 지 확인(Authti.. 사용 불가로 매개변수로 넘기지 못하는 관계로 추후 수정)
+    public Menu create(Long userId, Long cafeId, MenuCreateDto dto) throws IOException {
+        log.info("[MenuCreate] Service 요청 수행, dto : {}", dto.toString());
 
-        // !!아래는 임시코드!! cafeService에서 부르는게 더 나을듯 함(예외처리도 cafeService에서)
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException(ErrorCode.NON_EXISTENT_USER.getMsg()));
+
+        if(user.getCafe() == null){
+            log.info("[MenuCreate] 카페를 개설하지 않은 유저");
+            throw new IllegalArgumentException(ErrorCode.CAFE_NOT_FOUND.getMsg());
+        }
+
         Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() ->
-                new IllegalArgumentException(ErrorCode.CAFE_NOT_FOUND.getMsg())); // TODO 예외 종류 및 예외 메세지 관리 방법 선정해야함
-        // -- 검증 끝
+                new IllegalArgumentException(ErrorCode.CAFE_NOT_FOUND.getMsg()));
+
+        // owner가 관리하는 CafeId와 요청 cafeId 일치 여부 확인
+        if(!user.getCafe().getCafeId().equals(cafeId)){
+            log.info("[MenuCreate] 카페 메뉴에 접근 권한이 없음");
+            throw new IllegalArgumentException(ErrorCode.UNAUTHORIZED_ACCESS.getMsg());
+        }
+
 
         // Menu Entity 생성
         Menu menu = Menu.builder()
@@ -48,38 +61,66 @@ public class MenuService {
         Menu save = menuRepository.save(menu);
 
         fileStore.storeFiles(save, Menu.class, dto.getImageFiles());
+
+        log.info("[MenuCreate] Service 수행 완료");
         return save;
     }
 
 
     @Transactional
-    public Menu update(Long menuId, MenuUpdateDto dto) {
-        // TODO - 서비스 검증
-        //  1. user와 menuId 유효성 검사(null?)
-        //  2. [user의 businessId로 검색한 cafe객체의 id]와 [menu의 cafeId]가 일치하는지 확인
+    public Menu update(Long userId, Long menuId, MenuUpdateDto dto) {
+        log.info("[MenuUpdate] Service 요청 수행, dto : {}", dto.toString());
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException(ErrorCode.NON_EXISTENT_USER.getMsg()));
+
+        if(user.getCafe() == null){
+            log.info("[MenuCreate] 카페를 개설하지 않은 유저");
+            throw new IllegalArgumentException(ErrorCode.CAFE_NOT_FOUND.getMsg());
+        }
 
         Menu menu = menuRepository.findById(menuId).orElseThrow(() ->
                 new IllegalArgumentException(ErrorCode.MENU_NOT_FOUND.getMsg()));
-        // -- 검증 끝
+
+        if(!user.getCafe().getCafeId().equals(menu.getCafe().getCafeId())){
+            log.info("[MenuCreate] 카페 메뉴에 접근 권한이 없음");
+            throw new IllegalArgumentException(ErrorCode.UNAUTHORIZED_ACCESS.getMsg());
+        }
 
 
         // 메뉴 이름, 설명, 가격 수정
         menu.updateMenu(dto);
 
         // TODO 이미지 삭제 및 수정
-
+        log.info("[MenuUpdate] Service 수행 완료");
 
         return menu;
     }
 
-    public Menu delete(Long menuId) {
-        // TODO - 서비스 검증
+    @Transactional
+    public Menu delete(Long userId, Long menuId) {
+        log.info("[MenuDelete] Service 요청 수행, userId = {}, menuId = {}", userId, menuId);
 
-        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new IllegalArgumentException(ErrorCode.MENU_NOT_FOUND.getMsg()));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException(ErrorCode.NON_EXISTENT_USER.getMsg()));
+
+        if(user.getCafe() == null){
+            log.info("[MenuDelete] 카페를 개설하지 않은 유저");
+            throw new IllegalArgumentException(ErrorCode.CAFE_NOT_FOUND.getMsg());
+        }
+
+        Menu menu = menuRepository.findById(menuId).orElseThrow(() ->
+                new IllegalArgumentException(ErrorCode.MENU_NOT_FOUND.getMsg()));
+
+        if(!user.getCafe().getCafeId().equals(menu.getCafe().getCafeId())){
+            log.info("[MenuDelete] 카페 메뉴에 접근 권한이 없음");
+            throw new IllegalArgumentException(ErrorCode.UNAUTHORIZED_ACCESS.getMsg());
+        }
+
         menuRepository.delete(menu);
+        log.info("[MenuDelete] Service 요청 수행");
         return menu;
     }
 
+    @Transactional
     public List<Menu> getList(Long cafeId){
         cafeRepository.findById(cafeId).orElseThrow(() -> new IllegalArgumentException(ErrorCode.CAFE_NOT_FOUND.getMsg()));
 
