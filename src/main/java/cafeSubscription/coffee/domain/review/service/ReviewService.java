@@ -45,6 +45,8 @@ public class ReviewService {
     public void delete(Long reviewId) {
         reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.REVIEW_DELETION_FAILED.getMsg()));
+
+        reviewRepository.deleteById(reviewId);
     }
 
     public List<Review> findAll() {

@@ -10,6 +10,7 @@ public class ReviewMapper {
                 .reviewId(review.getReviewId())
                 .rContent(review.getRContent())
                 .rImage(review.getRImage())
+                .keyword(review.getKeyword())
                 .createdAt(review.getCreatedAt())
                 .build();
     }

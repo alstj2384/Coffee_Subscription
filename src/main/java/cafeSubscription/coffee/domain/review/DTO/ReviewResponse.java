@@ -1,6 +1,5 @@
 package cafeSubscription.coffee.domain.review.DTO;
 
-import cafeSubscription.coffee.domain.review.entity.Review;
 import cafeSubscription.coffee.domain.review.custom.Keyword;
 import cafeSubscription.coffee.domain.user.entity.User;
 import lombok.Builder;
@@ -14,7 +13,7 @@ import java.util.List;
 public class ReviewResponse {
     private final Long reviewId;
     private final User user;
-//    private final Keyword keyword;
+    private final Keyword keyword;
     private final List<String> rImage;
     private final LocalDateTime createdAt;
     private final String rContent;
