@@ -43,7 +43,7 @@ public class Cafe {
     private String location;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "business_id", nullable = false)
+    @JoinColumn(name = "business_id", nullable = true)
     private Business business;
 
     @OneToOne(cascade = CascadeType.PERSIST) // 카페 저장 시 운영시간도 저장하도록 설정

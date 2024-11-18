@@ -32,7 +32,6 @@ public class CafeService {
     public Cafe findById(long cafeId) {
         return cafeRepository.findById(cafeId).orElse(null); // 카페가 없으면 null 반환
     }
-
     public void delete(long cafeId) {
         cafeRepository.deleteById(cafeId);
     }

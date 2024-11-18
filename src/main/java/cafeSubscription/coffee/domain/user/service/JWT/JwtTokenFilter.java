@@ -14,7 +14,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
 
@@ -24,27 +23,38 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        try {
-            String header = request.getHeader("Authorization");
-            if (header == null || !header.startsWith("Bearer ")) {
-                filterChain.doFilter(request, response);
-                return;
-            }
+        String header = request.getHeader("Authorization");
+        if (header == null || !header.startsWith("Bearer ")) {
+            unauthorized(response, "요청된 헤더에 jwt 토큰을 찾을수 없음");
+            return;
+        }
 
-            String token = header.substring(7);
-            if (jwtTokenUtil.validateToken(token)) {
-                String username = jwtTokenUtil.getUsernameFromToken(token);
-                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
+        String token = header.substring(7);
+        if (!jwtTokenUtil.validateToken(token)) {
+            unauthorized(response, "유효한 jwt토큰");
+            return;
+        }
+
+        try {
+            String username = jwtTokenUtil.getUsernameFromToken(token);
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                filterChain.doFilter(request, response);
+            } else {
+                unauthorized(response, "인증 실패");
             }
         } catch (Exception ex) {
-            logger.error("JWT 인증 필터에서 오류 발생: {}", ex);
+            unauthorized(response, "JWT 토큰 검증 오류");
         }
-        filterChain.doFilter(request, response);
+    }
+
+    private void unauthorized(HttpServletResponse response, String message) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write(message);
+        response.getWriter().flush();
     }
 }
