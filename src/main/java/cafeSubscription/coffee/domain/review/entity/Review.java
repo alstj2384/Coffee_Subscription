@@ -34,7 +34,7 @@ public class Review {
     @Column(nullable = false)
     private String rContent;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private Keyword keyword;
 
     @ElementCollection
