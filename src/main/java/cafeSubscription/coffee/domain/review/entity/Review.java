@@ -47,9 +47,9 @@ public class Review {
     @Column(nullable = false)
     private Integer reportCount;
 
-    public void update(String rContent, List<String> rImage) {
+    public void update(String rContent, Keyword keyword, List<String> rImage) {
         this.rContent = rContent;
-//        this.keyword = keyword;
+        this.keyword = keyword;
         this.rImage = rImage;
     }
 }

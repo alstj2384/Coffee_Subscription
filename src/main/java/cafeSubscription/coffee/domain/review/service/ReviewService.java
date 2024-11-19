@@ -36,7 +36,7 @@ public class ReviewService {
             throw new IllegalArgumentException(ErrorCode.REVIEW_UPDATE_FAILED.getMsg());
         }
 
-        review.update(request.getRContent(), request.getRImage());
+        review.update(request.getRContent(), request.getKeyword(), request.getRImage());
 
         return reviewRepository.save(review);
     }
