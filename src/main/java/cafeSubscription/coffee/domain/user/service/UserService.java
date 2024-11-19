@@ -18,7 +18,6 @@ public class UserService {
     private final UserRepository userRepository;
 
     // 사용자 조회
-    @PreAuthorize("hasRole('customer')")
     public User findById(Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isEmpty()) {
@@ -27,7 +26,7 @@ public class UserService {
         return userOptional.get();
     }
 
-    @PreAuthorize("hasRole('customer')")
+
     public User updateNickname(long userId, String newNickname) {
         User user = findById(userId);
 
