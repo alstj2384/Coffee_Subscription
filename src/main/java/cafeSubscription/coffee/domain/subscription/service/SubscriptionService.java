@@ -19,15 +19,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
-
-    // TODO (임시코드) UserRepository -> UserService로 변경 필요
     private final UserRepository userRepository;
-
 
     @Transactional
     public Subscription subscription(Long userId, SubscriptionType type) {
-        // TODO 서비스 검증
-        //  이미 유저가 구독중이라면?
 
         // 유저 정보 검증
         User user = userRepository.findById(userId).orElseThrow(() ->
@@ -37,7 +32,7 @@ public class SubscriptionService {
         Optional<List<Subscription>> subscriptions = subscriptionRepository.findAllByUserUserIdOrderByStartDateDesc(user.getUserId());
 
         subscriptions.ifPresent(e -> {
-            if(e.get(0).isValid())
+            if(!e.isEmpty() && e.get(0).isValid())
                 throw new IllegalArgumentException(ErrorCode.SUBSCRIPTION_ALREADY_EXISTS.getMsg());
         });
 
