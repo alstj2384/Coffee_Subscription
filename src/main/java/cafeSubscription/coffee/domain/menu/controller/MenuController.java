@@ -54,7 +54,7 @@ public class MenuController {
     @PreAuthorize("hasRole('owner')")
     @Operation(summary = "카페메뉴 수정 api")
     @PatchMapping("/{menuId}")
-    public ResponseEntity<MenuViewDto> update(@AuthenticationPrincipal User user, @PathVariable Long menuId, @ModelAttribute MenuUpdateDto dto){
+    public ResponseEntity<MenuViewDto> update(@AuthenticationPrincipal User user, @PathVariable Long menuId, @ModelAttribute MenuUpdateDto dto) throws IOException {
         //  user 권한이 owner 인지 체크
         log.info("[MenuUpdate] 메뉴 수정 요청");
 

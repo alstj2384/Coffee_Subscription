@@ -5,11 +5,15 @@ import cafeSubscription.coffee.domain.coupon.service.CouponService;
 import cafeSubscription.coffee.domain.coupon.dto.request.CouponRequest;
 import cafeSubscription.coffee.domain.coupon.dto.response.CouponResponse;
 import cafeSubscription.coffee.domain.coupon.entity.Coupon;
+import cafeSubscription.coffee.domain.user.repository.RegisterRepository;
+import cafeSubscription.coffee.global.config.ErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,13 +24,15 @@ import org.springframework.web.bind.annotation.*;
 public class CouponController {
 
     private final CouponService couponService;
+    private final RegisterRepository registerRepository;
 
     @Operation(summary = "카페에서 쿠폰 사용 API", description = "customer가 카페에서 쿠폰을 사용하는 api")
-    @PostMapping("/use/{userId}")
-    public ResponseEntity<CouponResponse> useCoupon(@PathVariable Long userId, @RequestBody CouponRequest couponRequest){
-        // 유저 검증
-        // userId로 넘기는 거 시큐리티 붙이고 나서 수정해야함
+    @PostMapping("/use")
+    public ResponseEntity<CouponResponse> useCoupon(@AuthenticationPrincipal User user, @RequestBody CouponRequest couponRequest){
         log.info("[UseCoupon] Requested.. ");
+
+        cafeSubscription.coffee.domain.user.entity.User user1 = registerRepository.findByUsername(user.getUsername()).orElseThrow(() -> new IllegalArgumentException(ErrorCode.NON_EXISTENT_USER.getMsg()));
+        Long userId = user1.getUserId();
 
         Coupon coupon = couponService.useCoupon(userId, couponRequest);
 

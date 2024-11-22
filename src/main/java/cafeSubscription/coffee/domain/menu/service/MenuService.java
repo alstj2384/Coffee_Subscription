@@ -60,6 +60,7 @@ public class MenuService {
                 .build();
         Menu save = menuRepository.save(menu);
 
+
         fileStore.storeFiles(save, Menu.class, dto.getImageFiles());
 
         log.info("[MenuCreate] Service 수행 완료");
@@ -68,7 +69,7 @@ public class MenuService {
 
 
     @Transactional
-    public Menu update(Long userId, Long menuId, MenuUpdateDto dto) {
+    public Menu update(Long userId, Long menuId, MenuUpdateDto dto) throws IOException {
         log.info("[MenuUpdate] Service 요청 수행, dto : {}", dto.toString());
 
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException(ErrorCode.NON_EXISTENT_USER.getMsg()));
@@ -90,7 +91,11 @@ public class MenuService {
         // 메뉴 이름, 설명, 가격 수정
         menu.updateMenu(dto);
 
-        // TODO 이미지 삭제 및 수정
+
+        fileStore.storeFiles(menu, Menu.class, dto.getImageFiles());
+        dto.getDeleteFiles().forEach(l -> fileStore.deleteFile(l));
+
+
         log.info("[MenuUpdate] Service 수행 완료");
 
         return menu;
