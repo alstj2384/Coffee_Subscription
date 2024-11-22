@@ -6,6 +6,8 @@ import cafeSubscription.coffee.domain.user.entity.User;
 import cafeSubscription.coffee.domain.user.service.JWT.JwtService;
 import cafeSubscription.coffee.domain.user.service.OAuthRegisterService;
 import cafeSubscription.coffee.domain.user.service.RegisterService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Tag(name = "회원가입 API", description = "JWT 자체 회원가입 & google OAuth login API")
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class RegisterController {
     private final OAuthRegisterService oAuthRegisterService;
     private final JwtService jwtService;
 
+    @Operation(summary = "JWT 자체 회원가입 API", description = "일반 사용자(이름, 이메일, 비밀번호, 닉네임, 아이디), 비지니스(카페사장)는 추가로 사업자번호, 사업자이름, 계좌비밀번호, 사업자개업날짜 추가로 작성필요 ")
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody RegisterDTO registerDTO) {
@@ -47,7 +51,7 @@ public class RegisterController {
         return new ResponseEntity<>(tokens, headers, HttpStatus.OK);
     }
 
-
+    @Operation(summary = "OAuth로 가입후 닉네임 값 받는 API", description = "일반 사용자 : OAuth 경우 먼제 사용자가 로그인 후 자동으로 DB저장 후 닉네임 값 받음, 비지니스 사용자 : 추가로 사업자번호, 사업자이름, 계좌비밀번호, 사업자개업날짜 필요")
     @PostMapping("/register/oauth/update")
     public ResponseEntity<User> updateOAuthUser(@AuthenticationPrincipal OAuth2User principal, @RequestBody OAuthRegisterDTO requestDto) {
         if (principal == null) {

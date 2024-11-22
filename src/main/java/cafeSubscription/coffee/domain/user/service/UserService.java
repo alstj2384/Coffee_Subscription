@@ -6,6 +6,7 @@ import cafeSubscription.coffee.domain.user.repository.UserRepository;
 import cafeSubscription.coffee.global.config.CustomException;
 import cafeSubscription.coffee.global.config.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,6 +25,7 @@ public class UserService {
         }
         return userOptional.get();
     }
+
 
     public User updateNickname(long userId, String newNickname) {
         User user = findById(userId);

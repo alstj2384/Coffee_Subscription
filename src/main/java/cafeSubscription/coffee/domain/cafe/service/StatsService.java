@@ -27,7 +27,7 @@ public class StatsService {
     private final DiaryRepository diaryRepository;
     private final SubscriptionRepository subscriptionRepository;
 
-    @PreAuthorize("hasRole('owner')")
+
     public StatsDTO getSummary(Long cafeId, String ownerEmail) {
         Cafe cafe = validateCafeOwnership(cafeId, ownerEmail);
 
@@ -37,10 +37,9 @@ public class StatsService {
         return StatsMapper.toStatsDTO(totalReviewCount, totalDiaryCount);
     }
 
-    @PreAuthorize("hasRole('owner')")
-    public int getPeriodCouponUsage(Long cafeId, String ownerEmail, LocalDateTime startDate, LocalDateTime endDate) {
+    public int getPeriodCouponUsage(Long cafeId, String username, LocalDateTime startDate, LocalDateTime endDate) {
         // 카페 소유권 검증
-        Cafe cafe = validateCafeOwnership(cafeId, ownerEmail);
+        Cafe cafe = validateCafeOwnership(cafeId, username);
 
         // 해당 기간의 쿠폰 사용량 집계
         return subscriptionRepository.countUsageBetweenDates(cafeId, startDate, endDate);
