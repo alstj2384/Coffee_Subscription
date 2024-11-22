@@ -1,5 +1,6 @@
 package cafeSubscription.coffee.domain.cafe.entity;
 
+import cafeSubscription.coffee.domain.diary.entity.Diary;
 import cafeSubscription.coffee.domain.image.entity.Image;
 import cafeSubscription.coffee.domain.operatingHour.OperatingHour;
 import cafeSubscription.coffee.domain.review.entity.Review;
@@ -21,9 +22,6 @@ public class Cafe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cafeId;
 
-
-    // TODO Business,OperatingHour 연관시키기
-
     @Column(nullable = false)
     private String cafeName;
 
@@ -43,15 +41,15 @@ public class Cafe {
     private String location;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "business_id", nullable = true)
+    @JoinColumn(name = "business_id", nullable = false)
     private Business business;
 
-    @OneToOne(cascade = CascadeType.PERSIST) // 카페 저장 시 운영시간도 저장하도록 설정
-    @JoinColumn(name = "operating_hour_id")
+    @OneToOne(fetch = FetchType.LAZY) // 카페 저장 시 운영시간도 저장하도록 설정
+    @JoinColumn(name = "operating_hour_id", nullable = false)
     private OperatingHour operatingHour;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id", nullable = false)
+    @JoinColumn(name = "image_id", nullable = true)
     private Image image;
 
     @Builder
@@ -62,6 +60,9 @@ public class Cafe {
         this.location = location;
         this.operatingHour = operatingHour;
     }
+
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Diary> diaries;
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
