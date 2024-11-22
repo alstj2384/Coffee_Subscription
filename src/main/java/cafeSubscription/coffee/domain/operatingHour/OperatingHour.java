@@ -18,7 +18,11 @@ public class OperatingHour {
 
     private String mondayOpen;
     private String mondayClose;
+
+    @Column(name = "monday_break_start", length = 255)
     private String mondayBreakStart;
+
+    @Column(name = "monday_break_end", length = 255)
     private String mondayBreakEnd;
 
     private String tuesdayOpen;
