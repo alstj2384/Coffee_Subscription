@@ -1,6 +1,8 @@
 package cafeSubscription.coffee.domain.diary.entity;
 
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
+import cafeSubscription.coffee.domain.image.entity.Image;
+import cafeSubscription.coffee.domain.operatingHour.OperatingHour;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,8 +28,6 @@ public class Diary {
     @ManyToOne
     private Cafe cafe;
 
-    // TODO BusinessId, UserId 모두 연관?
-
     @Column(nullable = false)
     private String title;
 
@@ -40,22 +40,8 @@ public class Diary {
     @CreationTimestamp
     private LocalDateTime entryDate;
 
-    @LastModifiedDate
-    private LocalDateTime updatedAt; // 수정날짜(추가해도 되는지 모르겠슴다)
-
-    @ElementCollection
-    private List<String> thumbnail; // 임시 이미지 정보
-
-    @Builder
-    public Diary(String title, String diaryContent, List<String> thumbnail) {
-        this.title = title;
-        this.diaryContent = diaryContent;
-        this.thumbnail = thumbnail != null ? new ArrayList<>(thumbnail) : new ArrayList<>();
-    }
-
     public void update(String title, String diaryContent) {
         this.title = title;
         this.diaryContent = diaryContent;
-        this.updatedAt = LocalDateTime.now();
     }
 }
