@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return builder
                 .username(user.getUsername())  // 로그인 ID
                 .password(user.getPassword())
-                .roles(user.getRole().name())
+                .roles(user.getRole().name()) // roles 메서드는 접두사 "ROLE_"  권한 앞에 붙여줌
                 .build();
     }
 }

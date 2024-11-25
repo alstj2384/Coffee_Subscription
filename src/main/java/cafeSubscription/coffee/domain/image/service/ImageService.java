@@ -22,4 +22,8 @@ public class ImageService {
     public Image save(AddImageRequest request) {
         return imageRepository.save(request.toEntity());
     }
+
+    public Image save2(Image image) {
+        return imageRepository.save(image);
+    }
 }

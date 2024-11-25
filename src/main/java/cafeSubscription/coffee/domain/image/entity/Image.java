@@ -1,7 +1,9 @@
 package cafeSubscription.coffee.domain.image.entity;
 
+import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.custom.ImageType;
 import cafeSubscription.coffee.domain.custom.ImageTypeConverter;
+import cafeSubscription.coffee.domain.diary.entity.Diary;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,4 +32,5 @@ public class Image {
 
     @CreationTimestamp
     private LocalDateTime iCreateAt;
+
 }

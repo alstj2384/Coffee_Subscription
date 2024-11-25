@@ -5,8 +5,12 @@ spring:
   profiles:
     active: local
     group:
-      "local": "local, secrets, jwt"
+      "dev": "dev, secrets, jwt, oauth"
+      "local" : "local, secrets, jwt, oauth"
 
+server:
+  port: 8080
+  forward-headers-strategy: native
 
 file:
-  dir: src/main/resource/images/
+  dir: src/main/resources/images/

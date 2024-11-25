@@ -5,10 +5,14 @@ import cafeSubscription.coffee.domain.subscription.service.SubscriptionService;
 import cafeSubscription.coffee.domain.subscription.dto.SubscriptionType;
 import cafeSubscription.coffee.domain.subscription.dto.response.SubscriptionViewDto;
 import cafeSubscription.coffee.domain.subscription.entity.Subscription;
+import cafeSubscription.coffee.domain.user.repository.RegisterRepository;
+import cafeSubscription.coffee.global.config.ErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,11 +28,11 @@ import java.util.stream.Stream;
 @RequestMapping("/api/subscription")
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
+    private final RegisterRepository registerRepository;
 
     @Operation(summary = "구독 타입 조회 API")
     @GetMapping("/types")
     public ResponseEntity<List<SubscriptionViewDto>> getList(){
-        // TODO 유저 확인?
 
         SubscriptionType[] values = SubscriptionType.values();
 
@@ -39,18 +43,19 @@ public class SubscriptionController {
     }
 
     @Operation(summary = "customer 조회 API", description = "사용자가 어떤 구독을 하고있는지 조회api")
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> createSubscription(@PathVariable Long userId, @RequestParam(value = "type") Long typeId){
-        // TODO 결제 확인 이후 요청해야함
-        //  유저 검증 필요
-        //  이것저것 검증은 의논 후 결정해야할듯
+    @GetMapping("/join")
+    public ResponseEntity<?> createSubscription(@AuthenticationPrincipal User user, @RequestParam(value = "type") Long typeId){
 
+        cafeSubscription.coffee.domain.user.entity.User user1 = registerRepository.findByUsername(user.getUsername()).orElseThrow(() -> new IllegalArgumentException(ErrorCode.NON_EXISTENT_USER.getMsg()));
+
+        Long userId = user1.getUserId();
         // 구독 타입 검증
         SubscriptionType type = SubscriptionType.findByTypeId(typeId);
 
 
         Subscription subscription = subscriptionService.subscription(userId, type);
 
-        return ResponseEntity.ok().body(subscription);
+        SubscriptionViewDto subscriptionViewDto = SubscriptionMapper.toSubscriptionViewDto(type);
+        return ResponseEntity.ok().body(subscriptionViewDto);
     }
 }
