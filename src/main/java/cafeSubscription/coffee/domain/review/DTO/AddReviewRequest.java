@@ -10,7 +10,6 @@ import java.util.List;
 public class AddReviewRequest {
     @JsonProperty("rContent")
     private String rContent; // 리뷰 내용
-    @JsonProperty("keyword")
     private Keyword keyword;
     @JsonProperty("rImage")
     private List<String> rImage;

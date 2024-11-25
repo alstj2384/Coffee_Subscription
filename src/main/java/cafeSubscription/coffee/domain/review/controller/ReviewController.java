@@ -35,6 +35,7 @@ public class ReviewController {
         // "리뷰 작성에 성공했습니다."
     }
 
+    @Operation(summary = "리뷰 수정 API")
     @PatchMapping("/{reviewId}")
     public ResponseEntity<ReviewResponse> updateReview(//@AuthenticationPrincipal User user,
             @PathVariable Long reviewId, AddReviewRequest addReviewRequest) {
@@ -43,12 +44,6 @@ public class ReviewController {
 
         return ResponseEntity.status(HttpStatus.OK).body(ReviewMapper.toReviewResponse(review));
         // "리뷰 수정이 완료되었습니다."
-    }
-
-    @Operation(summary = "리뷰 수정 API")
-    @PutMapping("/{reviewId}")
-    public ResponseEntity<Map<String, Object>> updateReview(@PathVariable Long reviewId, AddReviewRequest request) {
-        return createResponseEntity(reviewService.update(reviewId, request), "리뷰 수정이 완료되었습니다.", HttpStatus.OK);
     }
 
     @Operation(summary = "리뷰 삭제 API")
