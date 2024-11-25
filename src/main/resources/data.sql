@@ -45,7 +45,8 @@ INSERT INTO operating_hours (
     SATURDAY_OPEN, SATURDAY_CLOSE, SATURDAY_BREAK_START, SATURDAY_BREAK_END,
     SUNDAY_OPEN, SUNDAY_CLOSE, SUNDAY_BREAK_START, SUNDAY_BREAK_END
 )
-VALUES (
+
+VALUES(
     101,
     '09:00', '20:00', '13:00', '14:00',  -- Monday
     '09:00', '20:00', '13:00', '14:00',  -- Tuesday
@@ -55,6 +56,7 @@ VALUES (
     '10:00', '20:00', '15:00', '16:00',  -- Saturday
     '10:00', '21:00', '15:00', '16:00'   -- Sunday
 );
+
 
 -- Image
 INSERT INTO image_all(image_id, image_path, image_type, i_create_at) VALUES (100, '', 0, '2024-05-12');

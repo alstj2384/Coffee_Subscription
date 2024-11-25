@@ -4,7 +4,6 @@ package cafeSubscription.coffee.domain.review.entity;
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 import cafeSubscription.coffee.domain.user.entity.User;
 import cafeSubscription.coffee.domain.review.custom.Keyword;
-import cafeSubscription.coffee.domain.review.custom.KeywordConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +34,7 @@ public class Review {
     @Column(nullable = false)
     private String rContent;
 
-    @Convert(converter = KeywordConverter.class)
+    @Enumerated(EnumType.ORDINAL)
     private Keyword keyword;
 
     @ElementCollection

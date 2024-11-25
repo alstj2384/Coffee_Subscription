@@ -1,26 +1,16 @@
 package cafeSubscription.coffee.domain.review.DTO;
 
-import cafeSubscription.coffee.domain.review.entity.Review;
 import cafeSubscription.coffee.domain.review.custom.Keyword;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
+@Data
 public class AddReviewRequest {
+    @JsonProperty("rContent")
     private String rContent; // 리뷰 내용
-    private Enum<Keyword> keyword;
+    private Keyword keyword;
+    @JsonProperty("rImage")
     private List<String> rImage;
-
-    public Review toEntity() {
-        return Review.builder()
-                .rContent(rContent)
-                .keyword((Keyword) keyword)
-                .rImage(rImage)
-                .build();
-    }
 }
