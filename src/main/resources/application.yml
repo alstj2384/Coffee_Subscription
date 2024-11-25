@@ -3,7 +3,7 @@ spring:
     name: coffee
 
   profiles:
-    active: dev
+    active: local
     group:
       "dev": "dev, secrets, jwt, oauth"
       "local" : "local, secrets, jwt, oauth"
