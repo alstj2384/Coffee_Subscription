@@ -1,17 +1,17 @@
 -- 유저 생성
-INSERT INTO USERS(user_id, role, email, name, nick_name, password, username) VALUES (100, '2', 'thd@naver.com', '송손님', 'osnie', '$2a$10$mMRwy2uSVgykxtdOGTtoiOUkIyrtPOGrnAtTUBzJPvF04eVAY6/Ci', 'song');
-INSERT INTO USERS(user_id, role, email, name, nick_name, password, username) VALUES (101, '2', 'rla@naver.com', '김손님', 'kim', '$2a$10$ZIKh24k2fgUMzaHy2BxSg.wSA5Jj/WHsPQnl5WQ0/TS33JvR6vndW', 'kim');
-INSERT INTO USERS(user_id, role, email, name, nick_name, password, username) VALUES (102, '0', 'qkr@naver.com', '박사장', 'park', '$2a$10$DHb865ORx56.3w563BblVuHE2Ur4pexqIgMHJWL87SUAYkzpmJV0S', 'park');
-INSERT INTO USERS(user_id, role, email, name, nick_name, password, username) VALUES (103, '0', 'ska@naver.com', '남사장', 'nam', '$2a$10$tZenbPSh6tZ93MCdhbfH1uatzjPh.stwYPta1ylgR5axQ6vgwh7Ku', 'nam');
+INSERT INTO users(user_id, role, email, name, nick_name, password, username) VALUES (100, '2', 'thd@naver.com', '송손님', 'osnie', '$2a$10$mMRwy2uSVgykxtdOGTtoiOUkIyrtPOGrnAtTUBzJPvF04eVAY6/Ci', 'song');
+INSERT INTO users(user_id, role, email, name, nick_name, password, username) VALUES (101, '2', 'rla@naver.com', '김손님', 'kim', '$2a$10$ZIKh24k2fgUMzaHy2BxSg.wSA5Jj/WHsPQnl5WQ0/TS33JvR6vndW', 'kim');
+INSERT INTO users(user_id, role, email, name, nick_name, password, username) VALUES (102, '0', 'qkr@naver.com', '박사장', 'park', '$2a$10$DHb865ORx56.3w563BblVuHE2Ur4pexqIgMHJWL87SUAYkzpmJV0S', 'park');
+INSERT INTO users(user_id, role, email, name, nick_name, password, username) VALUES (103, '0', 'ska@naver.com', '남사장', 'nam', '$2a$10$tZenbPSh6tZ93MCdhbfH1uatzjPh.stwYPta1ylgR5axQ6vgwh7Ku', 'nam');
 
 
 -- 구독 정보 [송손님(userid= 100) = 일주일 기간 구독중] [김손님(userid = 101) = 미구독자)]
-INSERT INTO SUBSCRIPTION(subscription_id, used_count, start_date, end_date, last_used_date, user_id, subscription_type) VALUES(100, '1', '2024-11-10', '2024-11-17', '2024-11-10', 100, 'WEEK');
-UPDATE USERS SET subscription_id = 100 WHERE user_id = 100;
+INSERT INTO subscription(subscription_id, used_count, start_date, end_date, last_used_date, user_id, subscription_type) VALUES(100, '1', '2024-11-10', '2024-11-17', '2024-11-10', 100, 'WEEK');
+UPDATE users SET subscription_id = 100 WHERE user_id = 100;
 
 -- 사장 사업자
-INSERT INTO BUSINESS(business_id, opening_date, user_id, b_name, bank_account, business_number) VALUES (100, '2023-7-12', 102, '박사장의 츄러스 카페', '1234-1234', '123-12-12345');
-INSERT INTO BUSINESS(business_id, opening_date, user_id, b_name, bank_account, business_number) VALUES (101, '2017-3-22', 103, '남사장의 원조 국밥', '1234-1234', '123-12-12345');
+INSERT INTO business(business_id, opening_date, user_id, b_name, bank_account, business_number) VALUES (100, '2023-7-12', 102, '박사장의 츄러스 카페', '1234-1234', '123-12-12345');
+INSERT INTO business(business_id, opening_date, user_id, b_name, bank_account, business_number) VALUES (101, '2017-3-22', 103, '남사장의 원조 국밥', '1234-1234', '123-12-12345');
 
 -- 운영 시간
 INSERT INTO operating_hours (
@@ -57,23 +57,23 @@ VALUES (
 );
 
 -- Image
-INSERT INTO IMAGE_ALL(image_id, image_path, image_type, i_create_at) VALUES (100, '', 0, '2024-05-12');
-INSERT INTO IMAGE_ALL(image_id, image_path, image_type, i_create_at) VALUES (101, '', 1, '2024-03-21');
+INSERT INTO image_all(image_id, image_path, image_type, i_create_at) VALUES (100, '', 0, '2024-05-12');
+INSERT INTO image_all(image_id, image_path, image_type, i_create_at) VALUES (101, '', 1, '2024-03-21');
 
 
 -- 카페
-INSERT INTO CAFE (
+INSERT INTO cafe (
     C_LATITUDE, C_LONGITUDE,OPERATING_HOUR_ID, PIN, BUSINESS_ID, CAFE_ID, CAFE_NAME, DESCRIPTION, LOCATION
 )
 VALUES
     (36.0, 126.0, 100, '1234', 100, 100, '박사장의 츄러스 카페', '츄러스와 다양한 음료를 제공하는 아늑한 카페입니다.', '충남 부여군 ~~읍'),
     (37.0, 127.0, 101, '5678', 101, 101, '남사장의 원조 국밥', '국밥과 함께 편안한 시간을 보낼 수 있는 식당입니다.', '경기 ~~');
 
-UPDATE USERS SET CAFE_ID = 100 WHERE USER_ID = 102;
-UPDATE USERS SET CAFE_ID = 101 WHERE USER_ID = 103;
+UPDATE users SET CAFE_ID = 100 WHERE USER_ID = 102;
+UPDATE users SET CAFE_ID = 101 WHERE USER_ID = 103;
 
 -- diary
-INSERT INTO DIARY(
+INSERT INTO diary(
      DIARY_ID, VIEW, CAFE_CAFE_ID, ENTRY_DATE, DIARY_CONTENT, TITLE
 )
 
@@ -89,7 +89,7 @@ VALUES
     (105, 170, 101, '2024-11-05', '한 달에 한 번씩 방문하는 단골집. 늘 만족합니다.', '단골의 즐거움');
 
 -- REVIEW
-INSERT INTO REVIEW (
+INSERT INTO review (
     REPORT_COUNT, CAFE_ID, CREATED_AT, USER_USER_ID, KEYWORD, R_CONTENT
 )
 VALUES
@@ -105,7 +105,7 @@ VALUES
 
 
 -- MENU
-INSERT INTO MENU (id, cafe_id, menu_name, m_price, menu_info)
+INSERT INTO menu (id, cafe_id, menu_name, m_price, menu_info)
 VALUES
     -- cafe_id 1에 대한 메뉴
     (100, 100, '츄러스', 5000, '바삭하고 달콤한 스페인식 디저트'),

@@ -1,19 +1,14 @@
 package cafeSubscription.coffee.domain.diary.entity;
 
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
-import cafeSubscription.coffee.domain.image.entity.Image;
-import cafeSubscription.coffee.domain.operatingHour.OperatingHour;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Builder

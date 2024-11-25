@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  mariadb:
+    build:
+      context: ../
+      dockerfile: ./docker/db-container/Dockerfile
+    container_name: mariadb_container
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - coffee-network  # 네트워크 이름이 my-network에서 coffee-network로 변경되었습니다.
+
+  app:
+    build:
+      context: ../
+      dockerfile: ./docker/server-container/Dockerfile
+    container_name: coffee_app_container
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../src:/app/src
+      - ./wait-for-it.sh:/wait-for-it.sh
+    depends_on:
+      - mariadb
+    networks:
+      - coffee-network
+    entrypoint: ["./wait-for-it.sh", "mariadb_container:3306", "--", "java", "-jar", "-Dspring.profiles.active=dev", "/app.jar"]
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ../nginx/ssl:/etc/ssl:ro
+    depends_on:
+      - app
+    networks:
+      - coffee-network
+
+networks:
+  coffee-network:  # 네트워크 이름을 일관되게 유지합니다.
+    driver: bridge
+
+volumes:
+  db-data:  # 데이터베이스 데이터를 영구적으로 저장

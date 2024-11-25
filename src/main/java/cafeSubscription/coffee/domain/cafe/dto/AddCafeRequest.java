@@ -1,18 +1,12 @@
 package cafeSubscription.coffee.domain.cafe.dto;
 
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
-import cafeSubscription.coffee.domain.image.DTO.AddImageRequest;
-import cafeSubscription.coffee.domain.image.entity.Image;
 import cafeSubscription.coffee.domain.operatingHour.OperatingHour;
 import cafeSubscription.coffee.domain.user.entity.Business;
 import lombok.AllArgsConstructor;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @AllArgsConstructor
