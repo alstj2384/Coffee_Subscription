@@ -1,6 +1,7 @@
 package cafeSubscription.coffee.domain.cafe.controller;
 
 import cafeSubscription.coffee.domain.cafe.dto.AddCafeRequest;
+import cafeSubscription.coffee.domain.cafe.dto.CafeDTO;
 import cafeSubscription.coffee.domain.cafe.dto.request.SearchAttributes;
 import cafeSubscription.coffee.domain.cafe.entity.Cafe;
 
@@ -79,32 +80,27 @@ public class CafeController {
         return createResponseEntity(data, "카페 등록에 성공하였습니다.", HttpStatus.CREATED);
     }
 
-    @Operation(summary = "카페단건 조회 API", description = "카페 단건 조회시 사용됨")
+    @Operation(summary = "카페 단건 조회 API", description = "카페 단건 조회 시 사용")
     @GetMapping("/{cafeId}") // 카페 단건 조회
     public ResponseEntity<Map<String, Object>> getCafe(@PathVariable long cafeId) {
-
-        Cafe cafe = cafeService.findById(cafeId);
-
-        if (cafe == null) {
-            return createResponseEntity(null, "카페를 찾을 수 없습니다.", HttpStatus.NOT_FOUND); // 카페가 없는 경우 404 반환
+        try {
+            CafeDTO cafe = cafeService.findById(cafeId); // DTO 반환
+            Map<String, Object> data = Map.of("cafe", cafe); // 응답 데이터 구성
+            log.info("카페ID : {} 조회", cafeId);
+            return createResponseEntity(data, "카페 조회에 성공하였습니다.", HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            log.warn("카페ID : {} 조회 실패 - {}", cafeId, e.getMessage());
+            return createResponseEntity(null, "카페를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
         }
-
-        Map<String, Object> data = createCafeData(cafe);
-        log.info("카페ID : {} 조회", cafeId);
-        return createResponseEntity(data, "카페 조회에 성공하였습니다.", HttpStatus.OK);
     }
 
-    @Operation(summary = "카페목록 조회 API", description = "여러 카페 리스트 조회시 사용")
+    @Operation(summary = "카페 목록 조회 API", description = "여러 카페 리스트 조회 시 사용")
     @GetMapping("/list") // 카페 목록 조회
     public ResponseEntity<Map<String, Object>> listCafes() {
-        List<Cafe> cafes = cafeService.findAll();
-
-        List<Map<String, Object>> cafeList = cafes.stream()
-                .map(this::createCafeData) // 각 Cafe 객체에 대해 createCafeData 호출
-                .toList();
-
+        List<CafeDTO> cafes = cafeService.findAll(); // DTO 리스트 반환
+        Map<String, Object> data = Map.of("cafes", cafes); // 응답 데이터 구성
         log.info("카페 전체 조회");
-        return createResponseEntity(cafeList, "카페 조회에 성공하였습니다.", HttpStatus.OK);
+        return createResponseEntity(data, "카페 조회에 성공하였습니다.", HttpStatus.OK);
     }
 
     @Operation(summary = "특정 카페 삭제 API", description = "사장님이 자신 카페 삭제시 사용")
